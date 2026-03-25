@@ -128,6 +128,7 @@ async function renderForum() {
       sb.from('threads').select('*, profiles(username, avatar_url)').order('pinned',{ascending:false}).order('created_at',{ascending:false}),
       sb.from('posts').select('thread_id'),
     ]);
+    console.log('cats:', cats, 'threads:', threads, 'err check');
     const cmap = {}; (allPosts||[]).forEach(p => { cmap[p.thread_id] = (cmap[p.thread_id]||0)+1; });
     const greeting = (currentUser && currentProfile) ? esc(currentProfile.username) : (currentUser ? 'Logged in' : 'Guest');
     const stats = '<div class="stats-bar"><span>&#128196; Threads: ' + (threads||[]).length + '</span><span>&#128172; Posts: ' + (allPosts||[]).length + '</span><span>&#128101; ' + (currentUser ? (currentProfile ? esc(currentProfile.username) : 'Logged in (profile missing)') : 'browsing as Guest') + ' - welcome back!!!</span></div>';
