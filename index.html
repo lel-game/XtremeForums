@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>XtremeForums - ur #1 place 2 hang out!!!</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Verdana, Geneva, sans-serif; font-size: 12px; background: #c0c0c0; }
+
+.win-outer { border: 2px solid; border-color: #ffffff #808080 #808080 #ffffff; background: #c0c0c0; margin-bottom: 6px; }
+.win-title { background: linear-gradient(to right, #000080, #1084d0); color: white; font-weight: bold; font-size: 11px; padding: 3px 6px; display: flex; justify-content: space-between; align-items: center; }
+.win-title-btns span { width: 16px; height: 14px; font-size: 9px; border: 1px solid; border-color: #fff #808080 #808080 #fff; background: #c0c0c0; cursor: default; display: inline-flex; align-items: center; justify-content: center; color: black; margin-left: 2px; }
+
+.btn98 { border: 2px solid; border-color: #fff #808080 #808080 #fff; background: #c0c0c0; padding: 3px 12px; font-family: Verdana, sans-serif; font-size: 11px; cursor: pointer; color: black; }
+.btn98:active { border-color: #808080 #fff #fff #808080; }
+.btn98:hover { background: #d4d0c8; }
+.btn-primary { background: #000080; color: white; border-color: #4040c0 #000040 #000040 #4040c0; }
+.btn-primary:hover { background: #0000a0; }
+.btn-danger { background: #800000; color: white; border-color: #c04040 #400000 #400000 #c04040; }
+
+input[type=text], input[type=password], input[type=email], textarea, select {
+  border: 2px solid; border-color: #808080 #fff #fff #808080;
+  font-family: Verdana, sans-serif; font-size: 11px; padding: 3px 5px;
+  background: white; color: black; width: 100%;
+}
+textarea { resize: vertical; }
+label { font-size: 11px; display: block; margin-bottom: 3px; font-weight: bold; }
+
+.browser-bar { background: #c0c0c0; padding: 4px 6px; border-bottom: 2px solid #808080; display: flex; align-items: center; gap: 6px; font-size: 11px; flex-wrap: wrap; }
+.address-bar { flex: 1; padding: 2px 4px; border: 2px inset #808080; background: white; font-size: 11px; font-family: Verdana; min-width: 100px; }
+
+.forum-header { background: linear-gradient(to right, #000080, #4040c0); color: white; padding: 10px 14px; text-align: center; }
+.forum-header h1 { font-size: 20px; font-weight: bold; text-shadow: 2px 2px #000040; letter-spacing: 1px; }
+.forum-header p { font-size: 10px; color: #c0c0ff; margin-top: 3px; }
+
+.marquee-bar { background: #000080; color: lime; font-size: 10px; padding: 2px 0; overflow: hidden; white-space: nowrap; }
+.marquee-inner { display: inline-block; animation: marquee 25s linear infinite; padding-left: 100%; }
+@keyframes marquee { to { transform: translateX(-100%); } }
+
+table { border-collapse: collapse; width: 100%; }
+th { background: #000080; color: white; padding: 4px 8px; text-align: left; font-size: 11px; }
+tr.clickable:hover { background: #d0d0f0; cursor: pointer; }
+tr:nth-child(even) { background: #ebebf8; }
+td { padding: 4px 8px; border-bottom: 1px solid #c8c8c8; font-size: 11px; vertical-align: middle; }
+
+.post-card { border: 2px solid; border-color: #808080 #fff #fff #808080; margin-bottom: 8px; background: white; }
+.post-head { background: #000080; color: white; padding: 3px 8px; display: flex; justify-content: space-between; align-items: center; }
+.post-head .uname { font-weight: bold; font-size: 11px; }
+.post-head .meta { font-size: 10px; color: #a0c0ff; }
+.post-inner { display: flex; gap: 8px; padding: 8px; }
+.avatar-box { width: 50px; text-align: center; flex-shrink: 0; }
+.avatar-img { font-size: 28px; display: block; margin-bottom: 2px; }
+.post-count { font-size: 9px; color: #000080; }
+.online-dot { display: inline-block; width: 7px; height: 7px; background: lime; border-radius: 50%; }
+.post-content { flex: 1; font-size: 12px; line-height: 1.6; word-break: break-word; }
+.post-sig { border-top: 1px dashed #808080; margin-top: 8px; padding-top: 6px; font-size: 10px; color: #606060; }
+.reply-indent { margin-left: 12px; border-left: 3px solid #000080; padding-left: 8px; }
+
+.notice { background: #ffffe0; border: 1px solid #c0c000; padding: 5px 8px; font-size: 11px; margin-bottom: 6px; }
+.error-box { background: #ffe0e0; border: 1px solid #c00000; padding: 5px 8px; font-size: 11px; margin-bottom: 6px; color: #800000; }
+.success-box { background: #e0ffe0; border: 1px solid #008000; padding: 5px 8px; font-size: 11px; margin-bottom: 6px; color: #006000; }
+.stats-bar { background: #e8e8e8; border: 2px inset #808080; padding: 4px 10px; display: flex; gap: 20px; font-size: 10px; color: #000080; font-weight: bold; flex-wrap: wrap; }
+
+#modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; align-items: center; justify-content: center; }
+#modal-bg.show { display: flex; }
+#modal { width: 320px; background: #c0c0c0; border: 2px solid; border-color: #fff #808080 #808080 #fff; }
+.modal-body { padding: 10px; }
+.field { margin-bottom: 8px; }
+
+.tab-row { display: flex; }
+.tab { border: 2px solid; border-color: #fff #808080 #c0c0c0 #fff; background: #c0c0c0; padding: 3px 14px; font-size: 11px; cursor: pointer; margin-right: 3px; }
+.tab.active { background: white; border-bottom-color: white; font-weight: bold; }
+.tab-body { border: 2px solid; border-color: #808080 #fff #fff #808080; background: white; padding: 10px; }
+
+::-webkit-scrollbar { width: 16px; }
+::-webkit-scrollbar-track { background: #c0c0c0; }
+::-webkit-scrollbar-thumb { background: #808080; border: 2px solid; border-color: #fff #606060 #606060 #fff; }
+</style>
+</head>
+<body>
+
+<!-- !! EDIT THESE 2 LINES WITH UR SUPABASE DETAILS !! -->
+<script>
+const SUPABASE_URL = 'https://kczrwcdjlfbojjzxdfko.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_If959z6IqdcQSjAFz-MIuA_DmwQfGBI';
+</script>
+
+<!-- AUTH MODAL -->
+<div id="modal-bg">
+  <div id="modal">
+    <div class="win-title">
+      <span>&#128274; Login / Register</span>
+      <div class="win-title-btns"><span onclick="closeModal()">x</span></div>
+    </div>
+    <div class="modal-body">
+      <div class="tab-row">
+        <div class="tab active" id="tab-login" onclick="switchTab('login')">Login</div>
+        <div class="tab" id="tab-register" onclick="switchTab('register')">Register</div>
+      </div>
+      <div class="tab-body">
+        <div id="auth-error" class="error-box" style="display:none"></div>
+        <!-- LOGIN -->
+        <div id="login-form">
+          <div class="field"><label>Email:</label><input type="email" id="login-email" placeholder="ur email addy"></div>
+          <div class="field"><label>Password:</label><input type="password" id="login-pass" placeholder="ur sekrit password"></div>
+          <button class="btn98 btn-primary" onclick="doLogin()" style="width:100%;margin-top:4px">Login!!!</button>
+        </div>
+        <!-- REGISTER -->
+        <div id="register-form" style="display:none">
+          <div class="field"><label>Username:</label><input type="text" id="reg-username" placeholder="xX_CoolName_Xx" maxlength="30"></div>
+          <div class="field"><label>Email:</label><input type="email" id="reg-email" placeholder="ur email addy"></div>
+          <div class="field"><label>Password:</label><input type="password" id="reg-pass" placeholder="min 6 chars!!"></div>
+          <div class="field">
+            <label>Avatar:</label>
+            <select id="reg-avatar">
+              <option>😈</option><option>🐱</option><option>🎮</option><option>💀</option>
+              <option>🔥</option><option>⚡</option><option>🌙</option><option>🐉</option>
+              <option>🎨</option><option>🤖</option><option>🦊</option><option>👾</option>
+            </select>
+          </div>
+          <div class="field"><label>Signature (optional):</label><input type="text" id="reg-sig" placeholder="~*~ ur cool sig ~*~" maxlength="100"></div>
+          <button class="btn98 btn-primary" onclick="doRegister()" style="width:100%;margin-top:4px">Create Account!!!</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div style="border: 2px solid; border-color: #fff #808080 #808080 #fff;">
+  <div class="browser-bar">
+    <button class="btn98" onclick="goBack()">&#9664; Back</button>
+    <button class="btn98" onclick="renderForum()">&#8635; Refresh</button>
+    <span class="address-bar">http://xtremeforums.net/</span>
+    <span id="user-greeting" style="font-size:11px;color:#000080;font-weight:bold"></span>
+    <button class="btn98 btn-primary" id="auth-btn" onclick="openModal()">Login / Register</button>
+    <button class="btn98 btn-danger" id="logout-btn" style="display:none" onclick="doLogout()">Logout</button>
+  </div>
+
+  <div class="forum-header">
+    <h1>&#127760; XtremeForums &#127760;</h1>
+    <p>ur #1 place 2 hang out on da web!!! est. 2001 XD</p>
+  </div>
+
+  <div class="marquee-bar">
+    <span class="marquee-inner">*** WELCOME 2 XTREMEFORUMS *** post ur stuff!!! *** NO FLAMING OR U WILL B BANNED *** rawr means i luv u in dinosaur *** dont 4get 2 sign da guestbook!!! *** asl??? ***</span>
+  </div>
+
+  <div style="padding: 5px 6px;" id="app-root">
+    <div style="text-align:center;padding:20px;color:#000080">loading forum... pls wait (its on 56k lol)</div>
+  </div>
+</div>
+
+<script>
+const { createClient } = supabase;
+const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+let currentUser = null;
+let currentProfile = null;
+let viewStack = [];
+let curState = { view: 'forum', threadId: null, catId: null };
+
+// ===== AUTH =====
+async function initAuth() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) await loadProfile(session.user);
+  sb.auth.onAuthStateChange(async (_event, session) => {
+    if (session) await loadProfile(session.user);
+    else { currentUser = null; currentProfile = null; updateAuthUI(); }
+  });
+}
+
+async function loadProfile(user) {
+  currentUser = user;
+  const { data } = await sb.from('profiles').select('*').eq('id', user.id).single();
+  currentProfile = data;
+  updateAuthUI();
+}
+
+function updateAuthUI() {
+  const in_ = !!currentUser;
+  document.getElementById('auth-btn').style.display = in_ ? 'none' : '';
+  document.getElementById('logout-btn').style.display = in_ ? '' : 'none';
+  document.getElementById('user-greeting').textContent = in_
+    ? (currentProfile?.avatar || '👤') + ' ' + (currentProfile?.username || 'user') : '';
+}
+
+async function doLogin() {
+  clearErr();
+  const email = v('login-email'), pass = v('login-pass');
+  if (!email || !pass) { showErr('fill both fields dummy!!!'); return; }
+  const { error } = await sb.auth.signInWithPassword({ email, password: pass });
+  if (error) { showErr('login failed: ' + error.message); return; }
+  closeModal(); renderForum();
+}
+
+async function doRegister() {
+  clearErr();
+  const username = v('reg-username'), email = v('reg-email'), pass = v('reg-pass');
+  const avatar = document.getElementById('reg-avatar').value;
+  const sig = v('reg-sig');
+  if (!username || !email || !pass) { showErr('fill in all da fields!!!'); return; }
+  if (pass.length < 6) { showErr('password needs 2 b at least 6 chars!!!'); return; }
+  const { data, error } = await sb.auth.signUp({ email, password: pass });
+  if (error) { showErr('register failed: ' + error.message); return; }
+  if (data.user) {
+    await sb.from('profiles').insert({ id: data.user.id, username, avatar, sig, post_count: 0 });
+  }
+  closeModal();
+  flashMsg('Account created!!! check ur email 2 confirm :D', 'success');
+}
+
+async function doLogout() { await sb.auth.signOut(); renderForum(); }
+function openModal() { document.getElementById('modal-bg').classList.add('show'); clearErr(); }
+function closeModal() { document.getElementById('modal-bg').classList.remove('show'); }
+function switchTab(t) {
+  document.getElementById('login-form').style.display = t === 'login' ? '' : 'none';
+  document.getElementById('register-form').style.display = t === 'register' ? '' : 'none';
+  document.getElementById('tab-login').className = 'tab' + (t === 'login' ? ' active' : '');
+  document.getElementById('tab-register').className = 'tab' + (t === 'register' ? ' active' : '');
+  clearErr();
+}
+function showErr(m) { const e = document.getElementById('auth-error'); e.textContent = m; e.style.display = ''; }
+function clearErr() { document.getElementById('auth-error').style.display = 'none'; }
+
+// ===== NAV =====
+function goBack() {
+  if (viewStack.length > 1) {
+    viewStack.pop();
+    const prev = viewStack[viewStack.length - 1];
+    navigate(prev.view, prev.data, false);
+  }
+}
+function navigate(view, data = {}, push = true) {
+  curState = { view, ...data };
+  if (push) viewStack.push({ view, data });
+  if (view === 'forum') renderForum();
+  else if (view === 'thread') renderThread(data.threadId);
+  else if (view === 'newthread') renderNewThread(data.catId);
+}
+
+// ===== FORUM =====
+async function renderForum() {
+  viewStack = [{ view: 'forum', data: {} }];
+  curState.view = 'forum';
+  const root = document.getElementById('app-root');
+  root.innerHTML = '<div style="text-align:center;padding:16px;color:#000080">loading...</div>';
+
+  const [{ data: cats }, { data: threads }, { data: allPosts }] = await Promise.all([
+    sb.from('categories').select('*').order('id'),
+    sb.from('threads').select('*, profiles(username,avatar)').order('pinned', { ascending: false }).order('created_at', { ascending: false }),
+    sb.from('posts').select('thread_id')
+  ]);
+
+  const cmap = {};
+  (allPosts || []).forEach(p => { cmap[p.thread_id] = (cmap[p.thread_id] || 0) + 1; });
+
+  const statsHtml = `<div class="stats-bar">
+    <span>&#128196; Threads: ${(threads||[]).length}</span>
+    <span>&#128172; Posts: ${(allPosts||[]).length}</span>
+    <span>&#128101; ${currentProfile ? currentProfile.avatar+' '+currentProfile.username : 'browsing as Guest'}</span>
+  </div>`;
+
+  const catsHtml = (cats || []).map(cat => {
+    const ts = (threads||[]).filter(t => t.category_id === cat.id);
+    const rows = ts.length === 0
+      ? `<tr><td colspan="5" style="color:#808080;font-style:italic;text-align:center">no threads yet... u go first!!!</td></tr>`
+      : ts.map(t => `<tr class="clickable" onclick="navigate('thread',{threadId:${t.id}})">
+          <td>${t.pinned ? '&#128204; ' : ''}<b>${esc(t.title)}</b></td>
+          <td>${esc(t.profiles?.avatar||'👤')} ${esc(t.profiles?.username||'???')}</td>
+          <td>${Math.max(0,(cmap[t.id]||1)-1)}</td>
+          <td>${t.views||0}</td>
+          <td>${fmt(t.created_at)}</td>
+        </tr>`).join('');
+    return `<div class="win-outer" style="margin-bottom:8px">
+      <div class="win-title"><span>${esc(cat.icon||'💬')} ${esc(cat.name)}</span><span style="font-size:10px;color:#a0c0ff">${esc(cat.description||'')}</span></div>
+      <div style="margin:4px">
+        <table><thead><tr><th>Thread</th><th>Author</th><th>Replies</th><th>Views</th><th>Date</th></tr></thead>
+        <tbody>${rows}</tbody></table>
+        <div style="margin-top:5px;text-align:right">
+          ${currentUser
+            ? `<button class="btn98 btn-primary" onclick="navigate('newthread',{catId:${cat.id}})">+ New Thread</button>`
+            : `<span style="font-size:10px;color:#808080">login 2 post!!!</span>`}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  root.innerHTML = statsHtml + catsHtml;
+}
+
+// ===== THREAD =====
+async function renderThread(threadId) {
+  const root = document.getElementById('app-root');
+  root.innerHTML = '<div style="text-align:center;padding:16px;color:#000080">loading thread...</div>';
+
+  const [{ data: thread }, { data: posts }] = await Promise.all([
+    sb.from('threads').select('*, categories(name,icon)').eq('id', threadId).single(),
+    sb.from('posts').select('*, profiles(username,avatar,sig,post_count)').eq('thread_id', threadId).order('created_at')
+  ]);
+
+  // increment views (fire and forget)
+  sb.from('threads').update({ views: (thread?.views||0) + 1 }).eq('id', threadId).then(() => {});
+
+  if (!thread) { root.innerHTML = '<div class="error-box">thread not found!!!</div>'; return; }
+
+  const postsHtml = (posts||[]).map((post, i) => {
+    const p = post.profiles || {};
+    return `<div class="${i > 0 ? 'reply-indent' : ''}" style="margin-bottom:8px">
+      <div class="post-card">
+        <div class="post-head">
+          <span class="uname">${esc(p.avatar||'👤')} ${esc(p.username||'???')}</span>
+          <span class="meta">${fmt(post.created_at)} | Posts: ${p.post_count||0}</span>
+        </div>
+        <div class="post-inner">
+          <div class="avatar-box">
+            <span class="avatar-img">${p.avatar||'👤'}</span>
+            <span class="online-dot"></span>
+            <div class="post-count">${p.post_count||0} posts</div>
+          </div>
+          <div class="post-content">
+            ${esc(post.content).replace(/\n/g,'<br>')}
+            ${p.sig ? `<div class="post-sig">${esc(p.sig)}</div>` : ''}
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  const replyBox = currentUser
+    ? `<div class="win-outer">
+        <div class="win-title"><span>&#9997; Post a Reply</span></div>
+        <div style="margin:6px">
+          <div style="margin-bottom:4px;font-size:11px">Posting as: <b>${esc(currentProfile?.avatar||'')} ${esc(currentProfile?.username||'')}</b></div>
+          <textarea id="reply-text" style="width:100%;height:90px" placeholder="type ur reply xD rawr!!!"></textarea>
+          <div style="margin-top:5px;display:flex;gap:6px">
+            <button class="btn98 btn-primary" onclick="submitReply(${threadId})">Post Reply!!!</button>
+            <button class="btn98" onclick="navigate('forum')">Cancel</button>
+          </div>
+          <div id="reply-msg" style="margin-top:4px"></div>
+        </div>
+      </div>`
+    : `<div class="notice">&#128274; u gotta <a href="#" onclick="openModal();return false" style="color:#000080;font-weight:bold">login</a> 2 reply!!!</div>`;
+
+  root.innerHTML = `
+    <div style="margin-bottom:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+      <button class="btn98" onclick="navigate('forum')">&#8592; Back 2 Forum</button>
+      <span style="font-weight:bold;font-size:13px">${esc(thread.categories?.icon||'')} ${esc(thread.title)}</span>
+    </div>
+    ${postsHtml}${replyBox}`;
+}
+
+async function submitReply(threadId) {
+  const txt = (document.getElementById('reply-text')?.value||'').trim();
+  const msgEl = document.getElementById('reply-msg');
+  if (!txt) { msgEl.innerHTML = '<span style="color:red">type something first dummy!!!</span>'; return; }
+  const { error } = await sb.from('posts').insert({ thread_id: threadId, author_id: currentUser.id, content: txt });
+  if (error) { msgEl.innerHTML = `<span style="color:red">error: ${esc(error.message)}</span>`; return; }
+  const newCount = (currentProfile.post_count||0) + 1;
+  await sb.from('profiles').update({ post_count: newCount }).eq('id', currentUser.id);
+  currentProfile.post_count = newCount;
+  renderThread(threadId);
+}
+
+// ===== NEW THREAD =====
+async function renderNewThread(catId) {
+  const root = document.getElementById('app-root');
+  const { data: cat } = await sb.from('categories').select('*').eq('id', catId).single();
+  root.innerHTML = `
+    <div style="margin-bottom:6px">
+      <button class="btn98" onclick="navigate('forum')">&#8592; Back 2 Forum</button>
+      <span style="margin-left:8px;font-weight:bold">New Thread in: ${esc(cat?.icon||'')} ${esc(cat?.name||'')}</span>
+    </div>
+    <div class="win-outer">
+      <div class="win-title"><span>&#9997; Create New Thread</span></div>
+      <div style="margin:8px">
+        <div style="margin-bottom:8px"><label>Thread Title:</label>
+          <input type="text" id="new-title" placeholder="type ur gr8 thread title here!!!" maxlength="200"></div>
+        <div style="margin-bottom:8px"><label>First Post:</label>
+          <textarea id="new-content" style="width:100%;height:110px" placeholder="say something!!1! rawr"></textarea></div>
+        <div style="display:flex;gap:6px">
+          <button class="btn98 btn-primary" onclick="submitThread(${catId})">Post Thread!!!</button>
+          <button class="btn98" onclick="navigate('forum')">Cancel</button>
+        </div>
+        <div id="newthread-msg" style="margin-top:4px"></div>
+      </div>
+    </div>`;
+}
+
+async function submitThread(catId) {
+  const title = (document.getElementById('new-title')?.value||'').trim();
+  const content = (document.getElementById('new-content')?.value||'').trim();
+  const msgEl = document.getElementById('newthread-msg');
+  if (!title || !content) { msgEl.innerHTML = '<span style="color:red">fill in all da fields!!!</span>'; return; }
+  const { data: thread, error: te } = await sb.from('threads')
+    .insert({ title, category_id: catId, author_id: currentUser.id, views: 0, pinned: false })
+    .select().single();
+  if (te) { msgEl.innerHTML = `<span style="color:red">error: ${esc(te.message)}</span>`; return; }
+  const { error: pe } = await sb.from('posts').insert({ thread_id: thread.id, author_id: currentUser.id, content });
+  if (pe) { msgEl.innerHTML = `<span style="color:red">error: ${esc(pe.message)}</span>`; return; }
+  const newCount = (currentProfile.post_count||0) + 1;
+  await sb.from('profiles').update({ post_count: newCount }).eq('id', currentUser.id);
+  currentProfile.post_count = newCount;
+  navigate('thread', { threadId: thread.id });
+}
+
+// ===== UTILS =====
+function v(id) { return (document.getElementById(id)?.value||'').trim(); }
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function fmt(iso) {
+  if (!iso) return '???';
+  const d = new Date(iso);
+  return d.toLocaleDateString('de-DE') + ' ' + d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
+}
+function flashMsg(msg, type) {
+  const root = document.getElementById('app-root');
+  const div = document.createElement('div');
+  div.className = type === 'success' ? 'success-box' : 'error-box';
+  div.textContent = msg;
+  root.prepend(div);
+  setTimeout(() => div.remove(), 5000);
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+
+(async () => { await initAuth(); await renderForum(); })();
+</script>
+</body>
+</html>
