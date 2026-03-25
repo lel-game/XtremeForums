@@ -123,11 +123,12 @@ async function renderForum() {
   const root = document.getElementById('app-root');
   root.innerHTML = '<div style="text-align:center;padding:16px;color:#000080">loading...</div>';
   try {
-    const [{ data: cats }, { data: threads }, { data: allPosts }] = await Promise.all([
-      sb.from('categories').select('*').order('id'),
-      sb.from('threads').select('*, profiles(username, avatar_url)').order('pinned',{ascending:false}).order('created_at',{ascending:false}),
-      sb.from('posts').select('thread_id'),
-    ]);
+    const [{ data: cats, error: e1 }, { data: threads, error: e2 }, { data: allPosts, error: e3 }] = await Promise.all([
+  sb.from('categories').select('*').order('id'),
+  sb.from('threads').select('*, profiles(username, avatar_url)').order('pinned',{ascending:false}).order('created_at',{ascending:false}),
+  sb.from('posts').select('thread_id'),
+]);
+console.log('errs:', e1, e2, e3);
     console.log('cats:', cats, 'threads:', threads, 'err check');
     const cmap = {}; (allPosts||[]).forEach(p => { cmap[p.thread_id] = (cmap[p.thread_id]||0)+1; });
     const greeting = (currentUser && currentProfile) ? esc(currentProfile.username) : (currentUser ? 'Logged in' : 'Guest');
