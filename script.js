@@ -125,7 +125,7 @@ async function renderForum() {
   try {
     const [{ data: cats, error: e1 }, { data: threads, error: e2 }, { data: allPosts, error: e3 }] = await Promise.all([
   sb.from('categories').select('*').order('id'),
-  sb.from('threads').select('*, profiles(username, avatar_url)').order('pinned',{ascending:false}).order('created_at',{ascending:false}),
+  sb.from('threads').select('*, profiles!threads_author_id_fkey(username, avatar_url)').order('pinned',{ascending:false}).order('created_at',{ascending:false}),
   sb.from('posts').select('thread_id'),
 ]);
 console.log('errs:', e1, e2, e3);
