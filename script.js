@@ -1,5 +1,5 @@
 const { createClient } = supabase;
-const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let currentUser = null, currentProfile = null, viewStack = [], curState = { view: 'forum', threadId: null }, editingPostId = null;
 
