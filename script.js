@@ -137,11 +137,16 @@ async function doRegister() {
     const { error: uploadError } = await sb.storage
       .from('avatars')
       .upload(path, file, { upsert: true });
+      console.log('upload path:', path);
+      console.log('upload error:', upErr);
+      console.log('file:', file.name, file.size, file.type);}
 
     if (!uploadError) {
       const { data: urlData } = sb.storage.from('avatars').getPublicUrl(path);
       avatar_url = urlData.publicUrl;
     }
+  
+  
   }
 
   // Insert profile row
