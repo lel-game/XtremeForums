@@ -127,26 +127,26 @@ async function doRegister() {
   });
   if (signUpError) { showErr('register failed: ' + signUpError.message); return; }
 
-  // Upload avatar image (if one was selected)
+  // Convert avatar image to base64 and store directly in the profile row.
+  // This avoids needing Supabase Storage buckets or any upload policies.
   let avatar_url = '';
-  if (authData.user && fileInput.files[0]) {
-    const file = fileInput.files[0];
-    const ext  = file.name.split('.').pop();
-    const path = `${authData.user.id}/avatar.${ext}`;
-
-    const { error: uploadError } = await sb.storage
-      .from('avatars')
-      .upload(path, file, { upsert: true });
-      console.log('upload path:', path);
-      console.log('upload error:', upErr);
-      console.log('file:', file.name, file.size, file.type);}
-
-    if (!uploadError) {
-      const { data: urlData } = sb.storage.from('avatars').getPublicUrl(path);
-      avatar_url = urlData.publicUrl;
-    }
-  
-  
+  if (fileInput.files[0]) {
+    avatar_url = await new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          // Scale down to 64x64 so the string stays small in the DB
+          const canvas = document.createElement('canvas');
+          canvas.width  = 64;
+          canvas.height = 64;
+          canvas.getContext('2d').drawImage(img, 0, 0, 64, 64);
+          resolve(canvas.toDataURL('image/jpeg', 0.8));
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(fileInput.files[0]);
+    });
   }
 
   // Insert profile row
