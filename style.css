@@ -1,0 +1,535 @@
+/* =========================================================
+   XtremeForums - style.css
+   Windows 98 / Y2K retro aesthetic
+   ========================================================= */
+
+/* --- Reset & Base --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 12px;
+  background: #c0c0c0;
+  min-height: 100vh;
+}
+
+/* --- Win98 Window Borders --- */
+/* raised = border light top-left, dark bottom-right */
+.win-outer {
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  background: #c0c0c0;
+  margin-bottom: 6px;
+}
+
+/* sunken = opposite of raised */
+.sunken {
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+}
+
+/* --- Window Title Bar --- */
+.win-title {
+  background: linear-gradient(to right, #000080, #1084d0);
+  color: white;
+  font-weight: bold;
+  font-size: 11px;
+  padding: 3px 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+
+.win-title-btns span {
+  width: 16px;
+  height: 14px;
+  font-size: 9px;
+  border: 1px solid;
+  border-color: #fff #808080 #808080 #fff;
+  background: #c0c0c0;
+  color: black;
+  cursor: default;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 2px;
+}
+
+/* --- Buttons --- */
+.btn98 {
+  border: 2px solid;
+  border-color: #fff #808080 #808080 #fff;
+  background: #c0c0c0;
+  padding: 3px 10px;
+  font-family: Verdana, sans-serif;
+  font-size: 11px;
+  cursor: pointer;
+  color: black;
+  white-space: nowrap;
+}
+
+.btn98:active {
+  border-color: #808080 #fff #fff #808080;
+}
+
+.btn98:hover:not(:disabled) {
+  background: #d4d0c8;
+}
+
+.btn98:disabled {
+  color: #808080;
+  cursor: default;
+}
+
+.btn-primary {
+  background: #000080;
+  color: white;
+  border-color: #4040c0 #000040 #000040 #4040c0;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #0000a0;
+}
+
+.btn-danger {
+  background: #800000;
+  color: white;
+  border-color: #c04040 #400000 #400000 #c04040;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: #a00000;
+}
+
+/* small variant used inside posts */
+.btn-sm {
+  padding: 1px 7px;
+  font-size: 10px;
+}
+
+/* full-width button (used in modal) */
+.btn-full {
+  width: 100%;
+  margin-top: 4px;
+}
+
+/* --- Form Inputs --- */
+input[type="text"],
+input[type="password"],
+textarea,
+select {
+  border: 2px solid;
+  border-color: #808080 #fff #fff #808080;
+  font-family: Verdana, sans-serif;
+  font-size: 11px;
+  padding: 3px 5px;
+  background: white;
+  color: black;
+  width: 100%;
+}
+
+input[type="file"] {
+  font-family: Verdana, sans-serif;
+  font-size: 11px;
+  width: 100%;
+}
+
+textarea {
+  resize: vertical;
+}
+
+label {
+  font-size: 11px;
+  display: block;
+  margin-bottom: 3px;
+  font-weight: bold;
+}
+
+.field {
+  margin-bottom: 8px;
+}
+
+/* --- Browser Chrome (outer frame) --- */
+#browser-frame {
+  border: 2px solid;
+  border-color: #fff #808080 #808080 #fff;
+}
+
+.browser-bar {
+  background: #c0c0c0;
+  padding: 4px 6px;
+  border-bottom: 2px solid #808080;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.address-bar {
+  flex: 1;
+  padding: 2px 4px;
+  border: 2px inset #808080;
+  background: white;
+  font-size: 11px;
+  font-family: Verdana;
+  min-width: 80px;
+}
+
+#user-greeting {
+  font-size: 11px;
+  color: #000080;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+#user-greeting img {
+  width: 18px;
+  height: 18px;
+  object-fit: cover;
+  border: 1px solid #808080;
+}
+
+/* --- Forum Header Banner --- */
+.forum-header {
+  background: linear-gradient(to right, #000080, #4040c0);
+  color: white;
+  padding: 10px 14px;
+  text-align: center;
+}
+
+.forum-header h1 {
+  font-size: 20px;
+  font-weight: bold;
+  text-shadow: 2px 2px #000040;
+  letter-spacing: 1px;
+}
+
+.forum-header p {
+  font-size: 10px;
+  color: #c0c0ff;
+  margin-top: 3px;
+}
+
+/* --- Scrolling Ticker --- */
+.marquee-bar {
+  background: #000080;
+  color: lime;
+  font-size: 10px;
+  padding: 2px 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee-inner {
+  display: inline-block;
+  animation: marquee 28s linear infinite;
+  padding-left: 100%;
+}
+
+@keyframes marquee {
+  to { transform: translateX(-100%); }
+}
+
+/* --- App Root Padding --- */
+#app-root {
+  padding: 5px 6px;
+}
+
+.loading-msg {
+  text-align: center;
+  padding: 20px;
+  color: #000080;
+}
+
+/* --- Stats Bar --- */
+.stats-bar {
+  background: #e8e8e8;
+  border: 2px inset #808080;
+  padding: 4px 10px;
+  display: flex;
+  gap: 16px;
+  font-size: 10px;
+  color: #000080;
+  font-weight: bold;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+/* --- Category & Thread Tables --- */
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th {
+  background: #000080;
+  color: white;
+  padding: 4px 8px;
+  text-align: left;
+  font-size: 11px;
+}
+
+td {
+  padding: 4px 8px;
+  border-bottom: 1px solid #c8c8c8;
+  font-size: 11px;
+  vertical-align: middle;
+}
+
+tr:nth-child(even) {
+  background: #ebebf8;
+}
+
+tr.clickable:hover {
+  background: #d0d0f0;
+  cursor: pointer;
+}
+
+/* small inline author avatar in thread list */
+td img.thread-avatar {
+  width: 16px;
+  height: 16px;
+  object-fit: cover;
+  border: 1px solid #808080;
+  vertical-align: middle;
+  margin-right: 3px;
+}
+
+/* --- Post Cards --- */
+.post-card {
+  border: 2px solid;
+  border-color: #808080 #fff #fff #808080;
+  margin-bottom: 8px;
+  background: white;
+}
+
+.post-head {
+  background: #000080;
+  color: white;
+  padding: 3px 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.post-head .uname {
+  font-weight: bold;
+  font-size: 11px;
+}
+
+.post-head .meta {
+  font-size: 10px;
+  color: #a0c0ff;
+  flex: 1;
+}
+
+.post-head .post-actions {
+  display: flex;
+  gap: 3px;
+}
+
+/* left avatar column inside a post */
+.post-inner {
+  display: flex;
+}
+
+.avatar-col {
+  width: 74px;
+  flex-shrink: 0;
+  border-right: 2px solid #c0c0c0;
+  background: #e8e8f0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 4px;
+  gap: 4px;
+}
+
+.avatar-col img {
+  width: 54px;
+  height: 54px;
+  object-fit: cover;
+  border: 2px solid;
+  border-color: #808080 #fff #fff #808080;
+  display: block;
+}
+
+.avatar-placeholder {
+  width: 54px;
+  height: 54px;
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #808080 #fff #fff #808080;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.uname-small {
+  font-size: 9px;
+  color: #000080;
+  font-weight: bold;
+  text-align: center;
+  word-break: break-all;
+}
+
+.post-count-label {
+  font-size: 9px;
+  color: #606060;
+}
+
+.online-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  background: lime;
+  border-radius: 50%;
+}
+
+/* post body */
+.post-body-wrap {
+  flex: 1;
+  padding: 8px 10px;
+  min-width: 0;
+}
+
+.post-content {
+  font-size: 12px;
+  line-height: 1.65;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+.post-sig {
+  border-top: 1px dashed #808080;
+  margin-top: 8px;
+  padding-top: 6px;
+  font-size: 10px;
+  color: #606060;
+  font-style: italic;
+}
+
+/* textarea shown when editing a post */
+.edit-area {
+  width: 100%;
+  min-height: 80px;
+  margin-bottom: 5px;
+}
+
+/* replies are visually indented */
+.reply-indent {
+  margin-left: 10px;
+  border-left: 3px solid #000080;
+  padding-left: 6px;
+}
+
+/* --- Notices / Alerts --- */
+.notice {
+  background: #ffffe0;
+  border: 1px solid #c0c000;
+  padding: 5px 8px;
+  font-size: 11px;
+  margin-bottom: 6px;
+}
+
+.error-box {
+  background: #ffe0e0;
+  border: 1px solid #c00000;
+  padding: 5px 8px;
+  font-size: 11px;
+  margin-bottom: 6px;
+  color: #800000;
+}
+
+.success-box {
+  background: #e0ffe0;
+  border: 1px solid #008000;
+  padding: 5px 8px;
+  font-size: 11px;
+  margin-bottom: 6px;
+  color: #005000;
+}
+
+/* --- Auth Modal --- */
+#modal-bg {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+}
+
+#modal-bg.show {
+  display: flex;
+}
+
+#modal {
+  width: 340px;
+  max-width: 95vw;
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #fff #808080 #808080 #fff;
+}
+
+.modal-body {
+  padding: 10px;
+}
+
+.tab-row {
+  display: flex;
+}
+
+.tab {
+  border: 2px solid;
+  border-color: #fff #808080 #c0c0c0 #fff;
+  background: #c0c0c0;
+  padding: 3px 14px;
+  font-size: 11px;
+  cursor: pointer;
+  margin-right: 3px;
+}
+
+.tab.active {
+  background: white;
+  border-bottom-color: white;
+  font-weight: bold;
+}
+
+.tab-body {
+  border: 2px solid;
+  border-color: #808080 #fff #fff #808080;
+  background: white;
+  padding: 10px;
+}
+
+/* avatar preview shown after picking an image file */
+.avatar-preview {
+  width: 54px;
+  height: 54px;
+  object-fit: cover;
+  border: 2px solid;
+  border-color: #808080 #fff #fff #808080;
+  display: block;
+  margin-top: 4px;
+}
+
+/* --- Scrollbar (webkit) --- */
+::-webkit-scrollbar       { width: 16px; }
+::-webkit-scrollbar-track { background: #c0c0c0; }
+::-webkit-scrollbar-thumb {
+  background: #808080;
+  border: 2px solid;
+  border-color: #fff #606060 #606060 #fff;
+}

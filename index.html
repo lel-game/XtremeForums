@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XtremeForums - ur #1 place 2 hang out!!!</title>
+
+  <!-- Supabase SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Your Supabase credentials -->
+  <script>
+    const SUPABASE_URL  = 'https://kczrwcdjlfbojjzxdfko.supabase.co';
+    const SUPABASE_KEY  = 'sb_publishable_If959z6IqdcQSjAFz-MIuA_DmwQfGBI';
+  </script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ===================== AUTH MODAL ===================== -->
+  <div id="modal-bg">
+    <div id="modal">
+
+      <div class="win-title">
+        <span>&#128274; Login / Register</span>
+        <div class="win-title-btns">
+          <span onclick="closeModal()">x</span>
+        </div>
+      </div>
+
+      <div class="modal-body">
+
+        <!-- tabs -->
+        <div class="tab-row">
+          <div class="tab active" id="tab-login"    onclick="switchTab('login')">Login</div>
+          <div class="tab"        id="tab-register" onclick="switchTab('register')">Register</div>
+        </div>
+
+        <div class="tab-body">
+          <div id="auth-error" class="error-box" style="display:none"></div>
+
+          <!-- LOGIN -->
+          <div id="login-form">
+            <div class="field">
+              <label>Username:</label>
+              <input type="text"     id="login-username" placeholder="xX_CoolName_Xx" autocomplete="username">
+            </div>
+            <div class="field">
+              <label>Password:</label>
+              <input type="password" id="login-pass"     placeholder="ur sekrit password" autocomplete="current-password">
+            </div>
+            <button class="btn98 btn-primary btn-full" onclick="doLogin()">Login!!!</button>
+          </div>
+
+          <!-- REGISTER -->
+          <div id="register-form" style="display:none">
+            <div class="field">
+              <label>Username:</label>
+              <input type="text"     id="reg-username" placeholder="xX_CoolName_Xx" maxlength="30" autocomplete="username">
+            </div>
+            <div class="field">
+              <label>Password:</label>
+              <input type="password" id="reg-pass"     placeholder="min 6 chars!!" autocomplete="new-password">
+            </div>
+            <div class="field">
+              <label>Avatar image:</label>
+              <input type="file" id="reg-avatar-file" accept="image/*" onchange="previewAvatar()">
+              <img id="avatar-preview" class="avatar-preview" style="display:none" src="" alt="preview">
+            </div>
+            <div class="field">
+              <label>Signature (optional):</label>
+              <input type="text" id="reg-sig" placeholder="~*~ ur cool sig ~*~" maxlength="100">
+            </div>
+            <button class="btn98 btn-primary btn-full" onclick="doRegister()">Create Account!!!</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== MAIN BROWSER CHROME ===================== -->
+  <div id="browser-frame">
+
+    <!-- top bar -->
+    <div class="browser-bar">
+      <button class="btn98" onclick="goBack()">&#9664; Back</button>
+      <button class="btn98" onclick="reloadView()">&#8635;</button>
+      <span class="address-bar">http://xtremeforums.net/</span>
+      <span id="user-greeting"></span>
+      <button class="btn98 btn-primary" id="auth-btn"    onclick="openModal()">Login / Register</button>
+      <button class="btn98 btn-danger"  id="logout-btn"  onclick="doLogout()" style="display:none">Logout</button>
+    </div>
+
+    <!-- header banner -->
+    <div class="forum-header">
+      <h1>&#127760; XtremeForums &#127760;</h1>
+      <p>ur #1 place 2 hang out on da web!!! est. 2001 XD</p>
+    </div>
+
+    <!-- scrolling news ticker -->
+    <div class="marquee-bar">
+      <span class="marquee-inner">
+        *** WELCOME 2 XTREMEFORUMS ***
+        post ur stuff!!! ***
+        NO FLAMING OR U WILL B BANNED ***
+        rawr means i luv u in dinosaur ***
+        dont 4get 2 sign da guestbook!!! ***
+        asl??? ***
+        omg did u see the new linkin park album???
+      </span>
+    </div>
+
+    <!-- dynamic content gets injected here -->
+    <div id="app-root">
+      <div class="loading-msg">connecting... pls wait (56k moment)</div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
