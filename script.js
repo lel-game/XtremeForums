@@ -199,9 +199,9 @@ async function doRegister() {
           const img = new Image();
           img.onload = () => {
             const canvas = document.createElement('canvas');
-            canvas.width  = 64;
-            canvas.height = 64;
-            canvas.getContext('2d').drawImage(img, 0, 0, 64, 64);
+            canvas.width  = 128;
+            canvas.height = 128;
+            canvas.getContext('2d').drawImage(img, 0, 0, 128, 128);
             resolve(canvas.toDataURL('image/jpeg', 0.8));
           };
           img.src = e.target.result;
