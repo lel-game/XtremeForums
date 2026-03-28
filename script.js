@@ -124,8 +124,9 @@ async function loadProfile(user) {
 function updateAuthUI() {
   const loggedIn = !!currentUser;
 
-  document.getElementById('auth-btn').style.display   = loggedIn ? 'none' : '';
-  document.getElementById('logout-btn').style.display = loggedIn ? ''     : 'none';
+  document.getElementById('auth-btn').style.display     = loggedIn ? 'none' : '';
+  document.getElementById('settings-btn').style.display = loggedIn ? ''     : 'none';
+  document.getElementById('logout-btn').style.display   = loggedIn ? ''     : 'none';
 
   const greeting = document.getElementById('user-greeting');
   if (loggedIn && currentProfile) {
@@ -287,11 +288,13 @@ function navigate(view, data = {}, push = true) {
   if      (view === 'forum')     renderForum();
   else if (view === 'thread')    renderThread(data.threadId);
   else if (view === 'newthread') renderNewThread(data.catId);
+  else if (view === 'settings')  renderSettings();
 }
 
 function reloadView() {
   if      (curState.view === 'thread')    renderThread(curState.threadId);
   else if (curState.view === 'newthread') renderNewThread(curState.catId);
+  else if (curState.view === 'settings')  renderSettings();
   else                                    renderForum();
 }
 
@@ -720,7 +723,222 @@ async function submitThread(catId) {
 
 
 /* =========================================================
-   UTILITIES
+   SETTINGS VIEW
+   ========================================================= */
+
+async function renderSettings() {
+  isNavigating  = true;
+  curState.view = 'settings';
+  showPageLoader('loading settings...');
+
+  // Guard: settings requires login
+  if (!currentUser || !currentProfile) {
+    document.getElementById('app-root').innerHTML =
+      '<div class="error-box">u gotta be logged in 2 access settings!!!</div>';
+    isNavigating = false;
+    return;
+  }
+
+  const avatarHtml = currentProfile.avatar_url
+    ? `<img src="${esc(currentProfile.avatar_url)}"
+            style="width:80px;height:80px;object-fit:cover;
+                   border:2px solid;border-color:#808080 #fff #fff #808080;
+                   display:block;margin-bottom:6px">`
+    : `<div style="width:80px;height:80px;background:#c0c0c0;
+                   border:2px solid;border-color:#808080 #fff #fff #808080;
+                   display:flex;align-items:center;justify-content:center;
+                   font-size:36px;margin-bottom:6px">&#128100;</div>`;
+
+  document.getElementById('app-root').innerHTML = `
+    <div style="margin-bottom:6px;display:flex;align-items:center;gap:8px">
+      <button class="btn98" onclick="navigate('forum')">&#8592; Back</button>
+      <span style="font-weight:bold;font-size:13px">&#9881; Account Settings</span>
+    </div>
+
+    <!-- Current profile summary -->
+    <div class="win-outer" style="margin-bottom:8px">
+      <div class="win-title"><span>&#128100; Your Profile</span></div>
+      <div style="padding:10px;display:flex;align-items:center;gap:12px;background:white;margin:4px">
+        ${avatarHtml}
+        <div>
+          <div style="font-weight:bold;font-size:14px">${esc(currentProfile.username)}</div>
+          <div style="font-size:11px;color:#606060;margin-top:2px">${esc(currentProfile.sig || '(no signature)')}</div>
+          <div style="font-size:10px;color:#000080;margin-top:4px">${currentProfile.post_count || 0} posts</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Change username -->
+    <div class="win-outer" style="margin-bottom:8px">
+      <div class="win-title"><span>&#9999; Change Username</span></div>
+      <div style="margin:8px">
+        <div class="field">
+          <label>New Username:</label>
+          <input type="text" id="set-username"
+            value="${esc(currentProfile.username)}" maxlength="30">
+        </div>
+        <div class="field">
+          <label>Signature:</label>
+          <input type="text" id="set-sig"
+            value="${esc(currentProfile.sig || '')}" maxlength="100"
+            placeholder="~*~ ur cool sig ~*~">
+        </div>
+        <button class="btn98 btn-primary" id="save-profile-btn"
+          onclick="saveProfile()">Save Changes</button>
+        <div id="profile-msg" style="margin-top:5px"></div>
+      </div>
+    </div>
+
+    <!-- Change avatar -->
+    <div class="win-outer" style="margin-bottom:8px">
+      <div class="win-title"><span>&#128247; Change Avatar</span></div>
+      <div style="margin:8px">
+        <div class="field">
+          <label>New Avatar Image:</label>
+          <input type="file" id="set-avatar-file" accept="image/*"
+            onchange="previewSettingsAvatar()">
+          <img id="set-avatar-preview" class="avatar-preview"
+            style="display:none" src="" alt="preview">
+        </div>
+        <button class="btn98 btn-primary" id="save-avatar-btn"
+          onclick="saveAvatar()">Save Avatar</button>
+        <div id="avatar-msg" style="margin-top:5px"></div>
+      </div>
+    </div>
+
+    <!-- Change password -->
+    <div class="win-outer" style="margin-bottom:8px">
+      <div class="win-title"><span>&#128274; Change Password</span></div>
+      <div style="margin:8px">
+        <div class="field">
+          <label>New Password:</label>
+          <input type="password" id="set-pass-new"
+            placeholder="min 6 chars!!">
+        </div>
+        <div class="field">
+          <label>Confirm New Password:</label>
+          <input type="password" id="set-pass-confirm"
+            placeholder="type it again!!!">
+        </div>
+        <button class="btn98 btn-primary" id="save-pass-btn"
+          onclick="savePassword()">Change Password</button>
+        <div id="pass-msg" style="margin-top:5px"></div>
+      </div>
+    </div>`;
+
+  isNavigating = false;
+}
+
+function previewSettingsAvatar() {
+  const file = document.getElementById('set-avatar-file').files[0];
+  const prev = document.getElementById('set-avatar-preview');
+  if (file) { prev.src = URL.createObjectURL(file); prev.style.display = 'block'; }
+  else       { prev.style.display = 'none'; }
+}
+
+async function saveProfile() {
+  const newUsername = val('set-username');
+  const newSig      = val('set-sig');
+  const msgEl       = document.getElementById('profile-msg');
+
+  if (!newUsername) { msgEl.innerHTML = '<span style="color:red">username cant be empty dummy!!!</span>'; return; }
+  if (!/^[a-zA-Z0-9_\-]+$/.test(newUsername)) { msgEl.innerHTML = '<span style="color:red">username: only letters, numbers, _ and - !!!</span>'; return; }
+
+  const btn = document.getElementById('save-profile-btn');
+  await withLoading(btn, 'saving...', async () => {
+
+    // Check new username isn't taken by someone else
+    if (newUsername !== currentProfile.username) {
+      const { data: existing } = await sb
+        .from('profiles')
+        .select('id')
+        .eq('username', newUsername)
+        .maybeSingle();
+      if (existing) { msgEl.innerHTML = '<span style="color:red">username already taken!!!</span>'; return; }
+    }
+
+    const { error } = await sb
+      .from('profiles')
+      .update({ username: newUsername, sig: newSig })
+      .eq('id', currentUser.id);
+
+    if (error) { msgEl.innerHTML = `<span style="color:red">error: ${esc(error.message)}</span>`; return; }
+
+    // Update local profile so header refreshes immediately
+    currentProfile.username = newUsername;
+    currentProfile.sig      = newSig;
+    updateAuthUI();
+
+    msgEl.innerHTML = '<span style="color:green">saved!!!</span>';
+    // Re-render settings so the profile summary reflects new values
+    setTimeout(() => renderSettings(), 800);
+  });
+}
+
+async function saveAvatar() {
+  const fileInput = document.getElementById('set-avatar-file');
+  const msgEl     = document.getElementById('avatar-msg');
+
+  if (!fileInput.files[0]) { msgEl.innerHTML = '<span style="color:red">pick an image first!!!</span>'; return; }
+
+  const btn = document.getElementById('save-avatar-btn');
+  await withLoading(btn, 'saving...', async () => {
+
+    // Convert to 128x128 base64, same as registration
+    const avatar_url = await new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          canvas.width  = 128;
+          canvas.height = 128;
+          canvas.getContext('2d').drawImage(img, 0, 0, 128, 128);
+          resolve(canvas.toDataURL('image/jpeg', 0.8));
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(fileInput.files[0]);
+    });
+
+    const { error } = await sb
+      .from('profiles')
+      .update({ avatar_url })
+      .eq('id', currentUser.id);
+
+    if (error) { msgEl.innerHTML = `<span style="color:red">error: ${esc(error.message)}</span>`; return; }
+
+    currentProfile.avatar_url = avatar_url;
+    updateAuthUI();
+
+    msgEl.innerHTML = '<span style="color:green">avatar updated!!!</span>';
+    setTimeout(() => renderSettings(), 800);
+  });
+}
+
+async function savePassword() {
+  const newPass     = document.getElementById('set-pass-new').value;
+  const confirmPass = document.getElementById('set-pass-confirm').value;
+  const msgEl       = document.getElementById('pass-msg');
+
+  if (!newPass || !confirmPass) { msgEl.innerHTML = '<span style="color:red">fill both fields!!!</span>'; return; }
+  if (newPass.length < 6)       { msgEl.innerHTML = '<span style="color:red">password needs 2 b at least 6 chars!!!</span>'; return; }
+  if (newPass !== confirmPass)  { msgEl.innerHTML = '<span style="color:red">passwords dont match dummy!!!</span>'; return; }
+
+  const btn = document.getElementById('save-pass-btn');
+  await withLoading(btn, 'saving...', async () => {
+    const { error } = await sb.auth.updateUser({ password: newPass });
+
+    if (error) { msgEl.innerHTML = `<span style="color:red">error: ${esc(error.message)}</span>`; return; }
+
+    msgEl.innerHTML = '<span style="color:green">password changed!!!</span>';
+    document.getElementById('set-pass-new').value     = '';
+    document.getElementById('set-pass-confirm').value = '';
+  });
+}
+
+
+/* =========================================================
    ========================================================= */
 
 function val(id) {
