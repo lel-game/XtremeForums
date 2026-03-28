@@ -10,7 +10,7 @@
    ========================================================= */
 :root {
   /* Desktop background */
-  --body-bg:        #6F8080;
+  --body-bg:        ##ADADAD;
 
   /* Window chrome (the gray areas, buttons) */
   --chrome-bg:      #c0c0c0;
@@ -86,7 +86,7 @@
 
 /* ---- Windows 95 ---------------------------------------- */
 body.theme-win95 {
-  --body-bg:        #008080;
+  --body-bg:        ##ADADAD;
   --title-from:     #000080;   /* solid, no gradient */
   --title-to:       #000080;
   --header-from:    #000080;
