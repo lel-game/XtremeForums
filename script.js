@@ -119,6 +119,14 @@ async function loadProfile(user) {
     currentProfile = null;
   }
   updateAuthUI();
+  applyTheme(currentProfile?.theme || 'win98');
+}
+
+function applyTheme(theme) {
+  const valid = ['win95', 'win98', 'winxp', 'longhorn', 'win7', 'macos'];
+  const safe  = valid.includes(theme) ? theme : 'win98';
+  document.body.className = 'theme-' + safe;
+  localStorage.setItem('xf-theme', safe);
 }
 
 function updateAuthUI() {
@@ -806,10 +814,22 @@ async function renderSettings() {
       </div>
     </div>
 
+    <!-- Theme picker -->
+    <div class="win-outer" style="margin-bottom:8px">
+      <div class="win-title"><span>&#127912; Choose Theme</span></div>
+      <div style="margin:8px">
+        <div class="theme-grid" id="theme-grid">
+          ${buildThemeGrid(currentProfile.theme || 'win98')}
+        </div>
+        <button class="btn98 btn-primary" id="save-theme-btn"
+          onclick="saveTheme()">Apply Theme</button>
+        <div id="theme-msg" style="margin-top:5px"></div>
+      </div>
+    </div>
+
     <!-- Change password -->
     <div class="win-outer" style="margin-bottom:8px">
-      <div class="win-title"><span>&#128274; Change Password</span></div>
-      <div style="margin:8px">
+      <div class="win-title"><span>&#128274; Change Password</span></div>      <div style="margin:8px">
         <div class="field">
           <label>New Password:</label>
           <input type="password" id="set-pass-new"
@@ -827,6 +847,69 @@ async function renderSettings() {
     </div>`;
 
   isNavigating = false;
+}
+
+const THEMES = [
+  { id: 'win95',    label: 'Windows 95'    },
+  { id: 'win98',    label: 'Windows 98'    },
+  { id: 'winxp',    label: 'Windows XP'    },
+  { id: 'longhorn', label: 'Win Longhorn'  },
+  { id: 'win7',     label: 'Windows 7'     },
+  { id: 'macos',    label: 'macOS Aqua'    },
+];
+
+let pendingTheme = null;  // theme picked but not yet saved to DB
+
+function buildThemeGrid(currentTheme) {
+  return THEMES.map(t => `
+    <div class="theme-option ${t.id === (pendingTheme || currentTheme) ? 'selected' : ''}"
+         id="theme-opt-${t.id}"
+         onclick="selectTheme('${t.id}')">
+      <div class="theme-preview tp-${t.id}">
+        <div class="tp-title">${t.label}</div>
+        <div class="tp-body">
+          <div class="tp-sidebar"></div>
+          <div class="tp-content"></div>
+        </div>
+      </div>
+      <div class="theme-label">${t.label}</div>
+    </div>`).join('');
+}
+
+function selectTheme(themeId) {
+  pendingTheme = themeId;
+  // Live preview — apply immediately
+  applyTheme(themeId);
+  // Update selected border in the grid
+  document.querySelectorAll('.theme-option').forEach(el => {
+    el.classList.toggle('selected', el.id === 'theme-opt-' + themeId);
+  });
+}
+
+async function saveTheme() {
+  if (!pendingTheme) {
+    document.getElementById('theme-msg').innerHTML =
+      '<span style="color:orange">pick a theme first!!!</span>';
+    return;
+  }
+  const btn = document.getElementById('save-theme-btn');
+  await withLoading(btn, 'saving...', async () => {
+    const { error } = await sb
+      .from('profiles')
+      .update({ theme: pendingTheme })
+      .eq('id', currentUser.id);
+
+    if (error) {
+      document.getElementById('theme-msg').innerHTML =
+        `<span style="color:red">error: ${esc(error.message)}</span>`;
+      return;
+    }
+
+    currentProfile.theme = pendingTheme;
+    pendingTheme = null;
+    document.getElementById('theme-msg').innerHTML =
+      '<span style="color:green">theme saved!!!</span>';
+  });
 }
 
 function previewSettingsAvatar() {
@@ -969,6 +1052,10 @@ document.addEventListener('keydown', e => {
    BOOT
    ========================================================= */
 (async () => {
+  // Apply saved theme immediately so there's no flash of default theme
+  const savedTheme = localStorage.getItem('xf-theme') || 'win98';
+  document.body.className = 'theme-' + savedTheme;
+
   await initAuth();
   navigate('forum');
 })();
