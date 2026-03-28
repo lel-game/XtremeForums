@@ -1,9 +1,281 @@
 /* =========================================================
    XtremeForums - style.css
-   Windows 98 / Y2K retro aesthetic
+   CSS-variable based theming system.
+   Each theme class on <body> overrides the variables below.
    ========================================================= */
 
-/* --- Reset & Base --- */
+
+/* =========================================================
+   THEME VARIABLES  (default = Windows 98)
+   ========================================================= */
+:root {
+  /* Desktop background */
+  --body-bg:        #008080;
+
+  /* Window chrome (the gray areas, buttons) */
+  --chrome-bg:      #c0c0c0;
+
+  /* Win98-style raised border:  light top-left, dark bottom-right */
+  --bl:             #ffffff;   /* border light */
+  --bd:             #808080;   /* border dark  */
+
+  /* Title bars */
+  --title-from:     #000080;
+  --title-to:       #1084d0;
+  --title-text:     #ffffff;
+  --title-sub:      #a0c0ff;   /* secondary text inside title bar */
+
+  /* Content / data areas */
+  --content-bg:     #ffffff;
+  --content-text:   #000000;
+  --row-alt:        #ebebf8;
+  --row-hover:      #d0d0f0;
+
+  /* Accent (primary buttons, links, table headers) */
+  --accent:         #000080;
+  --accent-text:    #ffffff;
+
+  /* Danger (delete buttons) */
+  --danger:         #800000;
+  --danger-text:    #ffffff;
+
+  /* Forum header banner */
+  --header-from:    #000080;
+  --header-to:      #4040c0;
+  --header-text:    #ffffff;
+  --header-sub:     #c0c0ff;
+
+  /* Stats bar */
+  --stats-bg:       #e8e8e8;
+  --stats-text:     #000080;
+
+  /* Scrolling ticker */
+  --marquee-bg:     #000080;
+  --marquee-text:   lime;
+
+  /* Post layout */
+  --post-head-from: #000080;
+  --post-head-to:   #000080;
+  --post-head-text: #ffffff;
+  --post-head-sub:  #a0c0ff;
+  --avatar-col-bg:  #e8e8f0;
+  --reply-indent:   #000080;
+  --sig-color:      #606060;
+  --online-color:   lime;
+
+  /* Notices */
+  --notice-bg:      #ffffe0;
+  --notice-border:  #c0c000;
+  --error-bg:       #ffe0e0;
+  --error-border:   #c00000;
+  --error-text:     #800000;
+
+  /* Modal */
+  --modal-chrome:   #c0c0c0;
+
+  /* Typography */
+  --font:           Verdana, Geneva, sans-serif;
+  --font-size:      12px;
+
+  /* Rounded corners (0 for retro, more for modern themes) */
+  --radius:         0px;
+  --radius-btn:     0px;
+  --radius-input:   0px;
+  --radius-win:     0px;
+}
+
+/* ---- Windows 95 ---------------------------------------- */
+body.theme-win95 {
+  --body-bg:        #008080;
+  --title-from:     #000080;   /* solid, no gradient */
+  --title-to:       #000080;
+  --header-from:    #000080;
+  --header-to:      #000080;
+  --post-head-from: #000080;
+  --post-head-to:   #000080;
+  --marquee-text:   #00ff00;
+  --font:           'MS Sans Serif', Verdana, sans-serif;
+}
+
+/* ---- Windows 98 (default) ------------------------------ */
+body.theme-win98 {
+  /* all defaults, nothing to override */
+}
+
+/* ---- Windows XP Luna ----------------------------------- */
+body.theme-winxp {
+  --body-bg:        #244ea3;
+  --chrome-bg:      #ece9d8;
+  --bl:             #ffffff;
+  --bd:             #9b9b9b;
+  --title-from:     #0a246a;
+  --title-to:       #a6caf0;
+  --title-text:     #ffffff;
+  --title-sub:      #cce8ff;
+  --content-bg:     #ffffff;
+  --content-text:   #000000;
+  --row-alt:        #eef3ff;
+  --row-hover:      #dce8ff;
+  --accent:         #0a246a;
+  --accent-text:    #ffffff;
+  --header-from:    #0a246a;
+  --header-to:      #3d6ea8;
+  --header-sub:     #c0deff;
+  --stats-bg:       #dae8f8;
+  --stats-text:     #0a246a;
+  --marquee-bg:     #0a246a;
+  --marquee-text:   #ffffff;
+  --post-head-from: #0a246a;
+  --post-head-to:   #3d6ea8;
+  --post-head-sub:  #cce8ff;
+  --avatar-col-bg:  #dde8f8;
+  --reply-indent:   #3d6ea8;
+  --modal-chrome:   #ece9d8;
+  --font:           Tahoma, Geneva, sans-serif;
+  --radius:         3px;
+  --radius-btn:     3px;
+  --radius-input:   2px;
+  --radius-win:     4px;
+}
+
+/* ---- Windows Longhorn (concept beta, 2003-2004) -------- */
+body.theme-longhorn {
+  --body-bg:        #040e24;
+  --chrome-bg:      #1a2a4a;
+  --bl:             #3a5a9a;
+  --bd:             #08122a;
+  --title-from:     #0a1838;
+  --title-to:       #2060b8;
+  --title-text:     #c0d8ff;
+  --title-sub:      #6a9cdf;
+  --content-bg:     #0e1e3a;
+  --content-text:   #c8d8f0;
+  --row-alt:        #152438;
+  --row-hover:      #1e3460;
+  --accent:         #3a80ff;
+  --accent-text:    #ffffff;
+  --danger:         #cc2244;
+  --danger-text:    #ffffff;
+  --header-from:    #040e24;
+  --header-to:      #1a3a7a;
+  --header-text:    #c0d8ff;
+  --header-sub:     #6a9cdf;
+  --stats-bg:       #0a1830;
+  --stats-text:     #6aacff;
+  --marquee-bg:     #040e24;
+  --marquee-text:   #6aacff;
+  --post-head-from: #0a1838;
+  --post-head-to:   #1a3a7a;
+  --post-head-text: #c0d8ff;
+  --post-head-sub:  #6a9cdf;
+  --avatar-col-bg:  #101e38;
+  --reply-indent:   #3a80ff;
+  --sig-color:      #6a8cbc;
+  --online-color:   #44ddff;
+  --notice-bg:      #0e1e3a;
+  --notice-border:  #3a80ff;
+  --error-bg:       #2a0e1a;
+  --error-border:   #cc2244;
+  --error-text:     #ff6688;
+  --modal-chrome:   #1a2a4a;
+  --font:           Tahoma, 'Segoe UI', sans-serif;
+  --radius:         4px;
+  --radius-btn:     4px;
+  --radius-input:   3px;
+  --radius-win:     4px;
+}
+
+/* ---- Windows 7 Aero ------------------------------------ */
+body.theme-win7 {
+  --body-bg:        #173461;
+  --chrome-bg:      #dce8f8;
+  --bl:             #c8dff8;
+  --bd:             #7aa8d8;
+  --title-from:     #aaccea;
+  --title-to:       #dceeff;
+  --title-text:     #1a3a6b;
+  --title-sub:      #4477aa;
+  --content-bg:     #ffffff;
+  --content-text:   #000000;
+  --row-alt:        #f0f6ff;
+  --row-hover:      #d8ecff;
+  --accent:         #1a6bcc;
+  --accent-text:    #ffffff;
+  --danger:         #cc2200;
+  --danger-text:    #ffffff;
+  --header-from:    #173461;
+  --header-to:      #1a6bcc;
+  --header-text:    #ffffff;
+  --header-sub:     #a8d0ff;
+  --stats-bg:       #d8ecff;
+  --stats-text:     #1a3a6b;
+  --marquee-bg:     #173461;
+  --marquee-text:   #a8d0ff;
+  --post-head-from: #1a6bcc;
+  --post-head-to:   #4499ff;
+  --post-head-sub:  #a8d0ff;
+  --avatar-col-bg:  #d8ecff;
+  --reply-indent:   #1a6bcc;
+  --sig-color:      #4477aa;
+  --online-color:   #44cc44;
+  --notice-bg:      #eef8ff;
+  --notice-border:  #1a6bcc;
+  --modal-chrome:   #dce8f8;
+  --font:           'Segoe UI', Tahoma, sans-serif;
+  --radius:         6px;
+  --radius-btn:     4px;
+  --radius-input:   3px;
+  --radius-win:     6px;
+}
+
+/* ---- macOS Aqua (OS X Jaguar / Panther era) ------------ */
+body.theme-macos {
+  --body-bg:        #6e6e6e;
+  --chrome-bg:      #d4d4d4;
+  --bl:             #f0f0f0;
+  --bd:             #999999;
+  --title-from:     #c0c0c0;
+  --title-to:       #e8e8e8;
+  --title-text:     #333333;
+  --title-sub:      #666666;
+  --content-bg:     #ffffff;
+  --content-text:   #000000;
+  --row-alt:        #f4f4f4;
+  --row-hover:      #e0edff;
+  --accent:         #0066cc;
+  --accent-text:    #ffffff;
+  --danger:         #cc2200;
+  --danger-text:    #ffffff;
+  --header-from:    #555555;
+  --header-to:      #888888;
+  --header-text:    #ffffff;
+  --header-sub:     #dddddd;
+  --stats-bg:       #eeeeee;
+  --stats-text:     #333333;
+  --marquee-bg:     #444444;
+  --marquee-text:   #ffffff;
+  --post-head-from: #555555;
+  --post-head-to:   #888888;
+  --post-head-text: #ffffff;
+  --post-head-sub:  #cccccc;
+  --avatar-col-bg:  #f0f0f0;
+  --reply-indent:   #0066cc;
+  --sig-color:      #777777;
+  --online-color:   #44bb44;
+  --notice-bg:      #fffde8;
+  --notice-border:  #ccaa00;
+  --modal-chrome:   #d4d4d4;
+  --font:           'Lucida Grande', Geneva, Verdana, sans-serif;
+  --radius:         8px;
+  --radius-btn:     6px;
+  --radius-input:   4px;
+  --radius-win:     8px;
+}
+
+
+/* =========================================================
+   RESET & BASE
+   ========================================================= */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -11,31 +283,37 @@
 }
 
 body {
-  font-family: Verdana, Geneva, sans-serif;
-  font-size: 12px;
-  background: #c0c0c0;
+  font-family: var(--font);
+  font-size: var(--font-size, 12px);
+  background: var(--body-bg);
   min-height: 100vh;
+  color: var(--content-text);
 }
 
-/* --- Win98 Window Borders --- */
-/* raised = border light top-left, dark bottom-right */
+
+/* =========================================================
+   WIN CHROME  (raised / sunken borders)
+   ========================================================= */
 .win-outer {
   border: 2px solid;
-  border-color: #ffffff #808080 #808080 #ffffff;
-  background: #c0c0c0;
+  border-color: var(--bl) var(--bd) var(--bd) var(--bl);
+  background: var(--chrome-bg);
   margin-bottom: 6px;
+  border-radius: var(--radius-win);
 }
 
-/* sunken = opposite of raised */
 .sunken {
   border: 2px solid;
-  border-color: #808080 #ffffff #ffffff #808080;
+  border-color: var(--bd) var(--bl) var(--bl) var(--bd);
 }
 
-/* --- Window Title Bar --- */
+
+/* =========================================================
+   TITLE BAR
+   ========================================================= */
 .win-title {
-  background: linear-gradient(to right, #000080, #1084d0);
-  color: white;
+  background: linear-gradient(to right, var(--title-from), var(--title-to));
+  color: var(--title-text);
   font-weight: bold;
   font-size: 11px;
   padding: 3px 6px;
@@ -43,6 +321,7 @@ body {
   justify-content: space-between;
   align-items: center;
   user-select: none;
+  border-radius: calc(var(--radius-win) - 2px) calc(var(--radius-win) - 2px) 0 0;
 }
 
 .win-title-btns span {
@@ -50,9 +329,9 @@ body {
   height: 14px;
   font-size: 9px;
   border: 1px solid;
-  border-color: #fff #808080 #808080 #fff;
-  background: #c0c0c0;
-  color: black;
+  border-color: var(--bl) var(--bd) var(--bd) var(--bl);
+  background: var(--chrome-bg);
+  color: var(--content-text);
   cursor: default;
   display: inline-flex;
   align-items: center;
@@ -60,110 +339,115 @@ body {
   margin-left: 2px;
 }
 
-/* --- Buttons --- */
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
 .btn98 {
   border: 2px solid;
-  border-color: #fff #808080 #808080 #fff;
-  background: #c0c0c0;
+  border-color: var(--bl) var(--bd) var(--bd) var(--bl);
+  background: var(--chrome-bg);
   padding: 3px 10px;
-  font-family: Verdana, sans-serif;
+  font-family: var(--font);
   font-size: 11px;
   cursor: pointer;
-  color: black;
+  color: var(--content-text);
   white-space: nowrap;
+  border-radius: var(--radius-btn);
 }
 
 .btn98:active {
-  border-color: #808080 #fff #fff #808080;
+  border-color: var(--bd) var(--bl) var(--bl) var(--bd);
 }
 
 .btn98:hover:not(:disabled) {
-  background: #d4d0c8;
+  filter: brightness(1.08);
 }
 
 .btn98:disabled {
-  color: #808080;
+  opacity: 0.5;
   cursor: default;
 }
 
 .btn-primary {
-  background: #000080;
-  color: white;
-  border-color: #4040c0 #000040 #000040 #4040c0;
-}
-
-.btn-primary:hover:not(:disabled) {
-  background: #0000a0;
+  background: var(--accent);
+  color: var(--accent-text);
+  border-color: color-mix(in srgb, var(--accent) 60%, white)
+                color-mix(in srgb, var(--accent) 60%, black)
+                color-mix(in srgb, var(--accent) 60%, black)
+                color-mix(in srgb, var(--accent) 60%, white);
 }
 
 .btn-danger {
-  background: #800000;
-  color: white;
-  border-color: #c04040 #400000 #400000 #c04040;
+  background: var(--danger);
+  color: var(--danger-text);
+  border-color: color-mix(in srgb, var(--danger) 60%, white)
+                color-mix(in srgb, var(--danger) 60%, black)
+                color-mix(in srgb, var(--danger) 60%, black)
+                color-mix(in srgb, var(--danger) 60%, white);
 }
 
-.btn-danger:hover:not(:disabled) {
-  background: #a00000;
-}
-
-/* small variant used inside posts */
 .btn-sm {
   padding: 1px 7px;
   font-size: 10px;
 }
 
-/* full-width button (used in modal) */
 .btn-full {
   width: 100%;
   margin-top: 4px;
 }
 
-/* --- Form Inputs --- */
+
+/* =========================================================
+   FORM INPUTS
+   ========================================================= */
 input[type="text"],
 input[type="password"],
 textarea,
 select {
   border: 2px solid;
-  border-color: #808080 #fff #fff #808080;
-  font-family: Verdana, sans-serif;
+  border-color: var(--bd) var(--bl) var(--bl) var(--bd);
+  font-family: var(--font);
   font-size: 11px;
   padding: 3px 5px;
-  background: white;
-  color: black;
+  background: var(--content-bg);
+  color: var(--content-text);
   width: 100%;
+  border-radius: var(--radius-input);
 }
 
 input[type="file"] {
-  font-family: Verdana, sans-serif;
+  font-family: var(--font);
   font-size: 11px;
   width: 100%;
+  color: var(--content-text);
 }
 
-textarea {
-  resize: vertical;
-}
+textarea { resize: vertical; }
 
 label {
   font-size: 11px;
   display: block;
   margin-bottom: 3px;
   font-weight: bold;
+  color: var(--content-text);
 }
 
-.field {
-  margin-bottom: 8px;
-}
+.field { margin-bottom: 8px; }
 
-/* --- Browser Chrome (outer frame) --- */
+
+/* =========================================================
+   BROWSER CHROME  (outer frame)
+   ========================================================= */
 #browser-frame {
   border: 2px solid;
-  border-color: #fff #808080 #808080 #fff;
+  border-color: var(--bl) var(--bd) var(--bd) var(--bl);
 }
 
 .browser-bar {
-  background: #c0c0c0;
+  background: var(--chrome-bg);
   padding: 4px 6px;
-  border-bottom: 2px solid #808080;
+  border-bottom: 2px solid var(--bd);
   display: flex;
   align-items: center;
   gap: 5px;
@@ -173,16 +457,19 @@ label {
 .address-bar {
   flex: 1;
   padding: 2px 4px;
-  border: 2px inset #808080;
-  background: white;
+  border: 2px solid;
+  border-color: var(--bd) var(--bl) var(--bl) var(--bd);
+  background: var(--content-bg);
   font-size: 11px;
-  font-family: Verdana;
+  font-family: var(--font);
   min-width: 80px;
+  color: var(--content-text);
+  border-radius: var(--radius-input);
 }
 
 #user-greeting {
   font-size: 11px;
-  color: #000080;
+  color: var(--accent);
   font-weight: bold;
   display: flex;
   align-items: center;
@@ -193,13 +480,17 @@ label {
   width: 18px;
   height: 18px;
   object-fit: cover;
-  border: 1px solid #808080;
+  border: 1px solid var(--bd);
+  border-radius: var(--radius);
 }
 
-/* --- Forum Header Banner --- */
+
+/* =========================================================
+   FORUM HEADER BANNER
+   ========================================================= */
 .forum-header {
-  background: linear-gradient(to right, #000080, #4040c0);
-  color: white;
+  background: linear-gradient(to right, var(--header-from), var(--header-to));
+  color: var(--header-text);
   padding: 10px 14px;
   text-align: center;
 }
@@ -207,20 +498,23 @@ label {
 .forum-header h1 {
   font-size: 20px;
   font-weight: bold;
-  text-shadow: 2px 2px #000040;
+  text-shadow: 2px 2px rgba(0,0,0,0.4);
   letter-spacing: 1px;
 }
 
 .forum-header p {
   font-size: 10px;
-  color: #c0c0ff;
+  color: var(--header-sub);
   margin-top: 3px;
 }
 
-/* --- Scrolling Ticker --- */
+
+/* =========================================================
+   SCROLLING TICKER
+   ========================================================= */
 .marquee-bar {
-  background: #000080;
-  color: lime;
+  background: var(--marquee-bg);
+  color: var(--marquee-text);
   font-size: 10px;
   padding: 2px 0;
   overflow: hidden;
@@ -237,40 +531,48 @@ label {
   to { transform: translateX(-100%); }
 }
 
-/* --- App Root Padding --- */
-#app-root {
-  padding: 5px 6px;
-}
+
+/* =========================================================
+   APP ROOT & LOADING
+   ========================================================= */
+#app-root { padding: 5px 6px; }
 
 .loading-msg {
   text-align: center;
   padding: 20px;
-  color: #000080;
+  color: var(--accent);
 }
 
-/* --- Stats Bar --- */
+
+/* =========================================================
+   STATS BAR
+   ========================================================= */
 .stats-bar {
-  background: #e8e8e8;
-  border: 2px inset #808080;
+  background: var(--stats-bg);
+  border: 2px solid;
+  border-color: var(--bd) var(--bl) var(--bl) var(--bd);
   padding: 4px 10px;
   display: flex;
   gap: 16px;
   font-size: 10px;
-  color: #000080;
+  color: var(--stats-text);
   font-weight: bold;
   flex-wrap: wrap;
   margin-bottom: 6px;
 }
 
-/* --- Category & Thread Tables --- */
+
+/* =========================================================
+   CATEGORY & THREAD TABLES
+   ========================================================= */
 table {
   border-collapse: collapse;
   width: 100%;
 }
 
 th {
-  background: #000080;
-  color: white;
+  background: var(--accent);
+  color: var(--accent-text);
   padding: 4px 8px;
   text-align: left;
   font-size: 11px;
@@ -278,41 +580,48 @@ th {
 
 td {
   padding: 4px 8px;
-  border-bottom: 1px solid #c8c8c8;
+  border-bottom: 1px solid var(--bd);
   font-size: 11px;
   vertical-align: middle;
+  color: var(--content-text);
+  background: var(--content-bg);
 }
 
-tr:nth-child(even) {
-  background: #ebebf8;
+tr:nth-child(even) td {
+  background: var(--row-alt);
 }
 
-tr.clickable:hover {
-  background: #d0d0f0;
+tr.clickable:hover td {
+  background: var(--row-hover);
   cursor: pointer;
 }
 
-/* small inline author avatar in thread list */
 td img.thread-avatar {
   width: 16px;
   height: 16px;
   object-fit: cover;
-  border: 1px solid #808080;
+  border: 1px solid var(--bd);
   vertical-align: middle;
   margin-right: 3px;
+  border-radius: var(--radius);
 }
 
-/* --- Post Cards --- */
+
+/* =========================================================
+   POST CARDS
+   ========================================================= */
 .post-card {
   border: 2px solid;
-  border-color: #808080 #fff #fff #808080;
+  border-color: var(--bd) var(--bl) var(--bl) var(--bd);
   margin-bottom: 8px;
-  background: white;
+  background: var(--content-bg);
+  border-radius: var(--radius-win);
+  overflow: hidden;
 }
 
 .post-head {
-  background: #000080;
-  color: white;
+  background: linear-gradient(to right, var(--post-head-from), var(--post-head-to));
+  color: var(--post-head-text, var(--title-text));
   padding: 3px 8px;
   display: flex;
   justify-content: space-between;
@@ -328,7 +637,7 @@ td img.thread-avatar {
 
 .post-head .meta {
   font-size: 10px;
-  color: #a0c0ff;
+  color: var(--post-head-sub, var(--title-sub));
   flex: 1;
 }
 
@@ -337,16 +646,13 @@ td img.thread-avatar {
   gap: 3px;
 }
 
-/* left avatar column inside a post */
-.post-inner {
-  display: flex;
-}
+.post-inner { display: flex; }
 
 .avatar-col {
   width: 74px;
   flex-shrink: 0;
-  border-right: 2px solid #c0c0c0;
-  background: #e8e8f0;
+  border-right: 2px solid var(--bd);
+  background: var(--avatar-col-bg);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -359,25 +665,27 @@ td img.thread-avatar {
   height: 54px;
   object-fit: cover;
   border: 2px solid;
-  border-color: #808080 #fff #fff #808080;
+  border-color: var(--bd) var(--bl) var(--bl) var(--bd);
   display: block;
+  border-radius: var(--radius);
 }
 
 .avatar-placeholder {
   width: 54px;
   height: 54px;
-  background: #c0c0c0;
+  background: var(--chrome-bg);
   border: 2px solid;
-  border-color: #808080 #fff #fff #808080;
+  border-color: var(--bd) var(--bl) var(--bl) var(--bd);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 24px;
+  border-radius: var(--radius);
 }
 
 .uname-small {
   font-size: 9px;
-  color: #000080;
+  color: var(--accent);
   font-weight: bold;
   text-align: center;
   word-break: break-all;
@@ -385,18 +693,17 @@ td img.thread-avatar {
 
 .post-count-label {
   font-size: 9px;
-  color: #606060;
+  color: var(--sig-color);
 }
 
 .online-dot {
   display: inline-block;
   width: 7px;
   height: 7px;
-  background: lime;
+  background: var(--online-color);
   border-radius: 50%;
 }
 
-/* post body */
 .post-body-wrap {
   flex: 1;
   padding: 8px 10px;
@@ -408,59 +715,57 @@ td img.thread-avatar {
   line-height: 1.65;
   word-break: break-word;
   white-space: pre-wrap;
+  color: var(--content-text);
 }
 
 .post-sig {
-  border-top: 1px dashed #808080;
+  border-top: 1px dashed var(--bd);
   margin-top: 8px;
   padding-top: 6px;
   font-size: 10px;
-  color: #606060;
+  color: var(--sig-color);
   font-style: italic;
 }
 
-/* textarea shown when editing a post */
 .edit-area {
   width: 100%;
   min-height: 80px;
   margin-bottom: 5px;
 }
 
-/* replies are visually indented */
 .reply-indent {
   margin-left: 10px;
-  border-left: 3px solid #000080;
+  border-left: 3px solid var(--reply-indent);
   padding-left: 6px;
 }
 
-/* --- Notices / Alerts --- */
+
+/* =========================================================
+   NOTICES / ALERTS
+   ========================================================= */
 .notice {
-  background: #ffffe0;
-  border: 1px solid #c0c000;
+  background: var(--notice-bg);
+  border: 1px solid var(--notice-border);
   padding: 5px 8px;
   font-size: 11px;
   margin-bottom: 6px;
+  border-radius: var(--radius);
 }
 
 .error-box {
-  background: #ffe0e0;
-  border: 1px solid #c00000;
+  background: var(--error-bg);
+  border: 1px solid var(--error-border);
   padding: 5px 8px;
   font-size: 11px;
   margin-bottom: 6px;
-  color: #800000;
+  color: var(--error-text);
+  border-radius: var(--radius);
 }
 
-.success-box {
-  background: #e0ffe0;
-  border: 1px solid #008000;
-  padding: 5px 8px;
-  font-size: 11px;
-  margin-bottom: 6px;
-  color: #005000;
-}
 
-/* --- Auth Modal --- */
+/* =========================================================
+   AUTH MODAL
+   ========================================================= */
 #modal-bg {
   display: none;
   position: fixed;
@@ -471,65 +776,161 @@ td img.thread-avatar {
   justify-content: center;
 }
 
-#modal-bg.show {
-  display: flex;
-}
+#modal-bg.show { display: flex; }
 
 #modal {
   width: 340px;
   max-width: 95vw;
-  background: #c0c0c0;
+  background: var(--modal-chrome);
   border: 2px solid;
-  border-color: #fff #808080 #808080 #fff;
+  border-color: var(--bl) var(--bd) var(--bd) var(--bl);
+  border-radius: var(--radius-win);
 }
 
-.modal-body {
-  padding: 10px;
-}
+.modal-body { padding: 10px; }
 
-.tab-row {
-  display: flex;
-}
+.tab-row { display: flex; }
 
 .tab {
   border: 2px solid;
-  border-color: #fff #808080 #c0c0c0 #fff;
-  background: #c0c0c0;
+  border-color: var(--bl) var(--bd) var(--chrome-bg) var(--bl);
+  background: var(--chrome-bg);
   padding: 3px 14px;
   font-size: 11px;
   cursor: pointer;
   margin-right: 3px;
+  color: var(--content-text);
+  border-radius: var(--radius-btn) var(--radius-btn) 0 0;
 }
 
 .tab.active {
-  background: white;
-  border-bottom-color: white;
+  background: var(--content-bg);
+  border-bottom-color: var(--content-bg);
   font-weight: bold;
+  color: var(--content-text);
 }
 
 .tab-body {
   border: 2px solid;
-  border-color: #808080 #fff #fff #808080;
-  background: white;
+  border-color: var(--bd) var(--bl) var(--bl) var(--bd);
+  background: var(--content-bg);
   padding: 10px;
+  color: var(--content-text);
 }
 
-/* avatar preview shown after picking an image file */
 .avatar-preview {
   width: 54px;
   height: 54px;
   object-fit: cover;
   border: 2px solid;
-  border-color: #808080 #fff #fff #808080;
+  border-color: var(--bd) var(--bl) var(--bl) var(--bd);
   display: block;
   margin-top: 4px;
+  border-radius: var(--radius);
 }
 
-/* --- Scrollbar (webkit) --- */
+
+/* =========================================================
+   THEME PICKER  (in settings page)
+   ========================================================= */
+.theme-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.theme-option {
+  border: 3px solid transparent;
+  cursor: pointer;
+  border-radius: 4px;
+  overflow: hidden;
+  transition: border-color 0.1s;
+}
+
+.theme-option:hover    { border-color: var(--accent); }
+.theme-option.selected { border-color: lime; }
+
+.theme-preview {
+  height: 60px;
+  display: flex;
+  flex-direction: column;
+}
+
+.theme-preview .tp-title {
+  height: 14px;
+  font-size: 8px;
+  font-weight: bold;
+  padding: 2px 4px;
+  color: white;
+  display: flex;
+  align-items: center;
+}
+
+.theme-preview .tp-body {
+  flex: 1;
+  padding: 4px;
+  display: flex;
+  gap: 3px;
+}
+
+.theme-preview .tp-sidebar {
+  width: 20px;
+}
+
+.theme-preview .tp-content {
+  flex: 1;
+  border-radius: 2px;
+}
+
+.theme-label {
+  font-size: 10px;
+  font-weight: bold;
+  text-align: center;
+  padding: 3px;
+  background: var(--chrome-bg);
+  color: var(--content-text);
+}
+
+/* Individual theme preview swatches */
+.tp-win95   .tp-title  { background: #000080; }
+.tp-win95   .tp-body   { background: #c0c0c0; }
+.tp-win95   .tp-sidebar { background: #808080; }
+.tp-win95   .tp-content { background: white; }
+
+.tp-win98   .tp-title  { background: linear-gradient(to right, #000080, #1084d0); }
+.tp-win98   .tp-body   { background: #c0c0c0; }
+.tp-win98   .tp-sidebar { background: #808080; }
+.tp-win98   .tp-content { background: white; }
+
+.tp-winxp   .tp-title  { background: linear-gradient(to right, #0a246a, #a6caf0); }
+.tp-winxp   .tp-body   { background: #ece9d8; }
+.tp-winxp   .tp-sidebar { background: #3d6ea8; }
+.tp-winxp   .tp-content { background: white; }
+
+.tp-longhorn .tp-title  { background: linear-gradient(to right, #0a1838, #2060b8); }
+.tp-longhorn .tp-body   { background: #1a2a4a; }
+.tp-longhorn .tp-sidebar { background: #0a1838; }
+.tp-longhorn .tp-content { background: #0e1e3a; }
+
+.tp-win7    .tp-title  { background: linear-gradient(to right, #aaccea, #dceeff); }
+.tp-win7    .tp-body   { background: #dce8f8; }
+.tp-win7    .tp-sidebar { background: #173461; }
+.tp-win7    .tp-content { background: white; }
+
+.tp-macos   .tp-title  { background: linear-gradient(to right, #c0c0c0, #e8e8e8); }
+.tp-macos   .tp-body   { background: #d4d4d4; }
+.tp-macos   .tp-sidebar { background: #888888; }
+.tp-macos   .tp-content { background: white; }
+
+
+/* =========================================================
+   SCROLLBAR  (webkit)
+   ========================================================= */
 ::-webkit-scrollbar       { width: 16px; }
-::-webkit-scrollbar-track { background: #c0c0c0; }
+::-webkit-scrollbar-track { background: var(--chrome-bg); }
 ::-webkit-scrollbar-thumb {
-  background: #808080;
+  background: var(--bd);
   border: 2px solid;
-  border-color: #fff #606060 #606060 #fff;
+  border-color: var(--bl) var(--bd) var(--bd) var(--bl);
 }
