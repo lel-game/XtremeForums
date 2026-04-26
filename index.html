@@ -122,5 +122,76 @@
   </div>
 
   <script src="script.js"></script>
+
+  <!-- ===================== WINAMP PLAYER ===================== -->
+  <div id="xf-player-wrap">
+    <div id="xf-player">
+  
+      <div class="win-title">
+        <span>&#127925; XtremePlayer 2.91</span>
+        <div class="win-title-btns">
+          <span onclick="xfTogglePL()">PL</span>
+          <span onclick="xfClose()">x</span>
+        </div>
+      </div>
+  
+      <div class="xf-lcd">
+        <div class="xf-lcd-name" id="xf-name">STOPPED</div>
+        <div class="xf-lcd-time">
+          <span class="xf-time-big" id="xf-time">0:00</span>
+          <span class="xf-time-rem" id="xf-rem">-0:00</span>
+        </div>
+        <div class="xf-spectrum" id="xf-spec"></div>
+      </div>
+  
+      <div class="xf-cd-row">
+        <svg class="xf-cd-svg" id="xf-cd" viewBox="0 0 38 38">
+          <circle cx="19" cy="19" r="18" fill="var(--chrome-bg)" stroke="var(--bd)" stroke-width="1"/>
+          <circle cx="19" cy="19" r="15" fill="none" stroke="var(--accent)" stroke-width="0.5" opacity="0.4"/>
+          <circle cx="19" cy="19" r="11" fill="none" stroke="var(--accent)" stroke-width="0.5" opacity="0.3"/>
+          <circle cx="19" cy="19" r="7"  fill="none" stroke="var(--accent)" stroke-width="0.5" opacity="0.2"/>
+          <path d="M19 1 A18 18 0 0 1 37 19" fill="none" stroke="var(--accent)" stroke-width="2" opacity="0.8"/>
+          <path d="M19 37 A18 18 0 0 1 1 19" fill="none" stroke="var(--bd)" stroke-width="2" opacity="0.5"/>
+          <circle cx="19" cy="19" r="3.5" fill="var(--chrome-bg)" stroke="var(--bd)" stroke-width="1"/>
+          <circle cx="19" cy="19" r="1.5" fill="var(--accent)"/>
+        </svg>
+      </div>
+  
+      <div class="xf-prog-wrap">
+        <div class="xf-prog-track" id="xf-prog" onclick="xfSeek(event)">
+          <div class="xf-prog-fill" id="xf-pfill"></div>
+        </div>
+        <div class="xf-time-row">
+          <span id="xf-cur">0:00</span>
+          <span id="xf-dur">0:00</span>
+        </div>
+      </div>
+  
+      <div class="xf-vol-row">
+        <span>VOL</span>
+        <div class="xf-vol-track" id="xf-vtrack" onclick="xfVol(event)">
+          <div class="xf-vol-fill" id="xf-vfill"></div>
+        </div>
+        <span id="xf-vnum">80</span>
+      </div>
+  
+      <div class="xf-controls">
+        <button class="xf-cbtn" onclick="xfPrev()">|&lt;</button>
+        <button class="xf-cbtn" id="xf-pbtn" onclick="xfPlayPause()">&gt;</button>
+        <button class="xf-cbtn" onclick="xfStop()">[]</button>
+        <button class="xf-cbtn" onclick="xfNext()">&gt;|</button>
+        <button class="xf-cbtn" id="xf-shuf" onclick="xfShuffle()">SHF</button>
+      </div>
+  
+      <div class="xf-playlist" id="xf-pl">
+        <div class="xf-pl-header">
+          <span>Playlist</span>
+          <span id="xf-plcount"></span>
+        </div>
+        <div id="xf-pl-items"></div>
+      </div>
+  
+    </div>
+  </div>
 </body>
 </html>
