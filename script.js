@@ -1241,3 +1241,159 @@ async function archiveDelete(fileId, storagePath) {
   await initAuth();
   navigate('forum');
 })();
+
+/* =========================================================
+   WINAMP PLAYER
+   ========================================================= */
+(function () {
+  const PLAYLIST = [
+    { title: 'Track 01 - Name Here', url: 'YOUR_URL_1.mp3' },
+    { title: 'Track 02 - Name Here', url: 'YOUR_URL_2.mp3' },
+    { title: 'Track 03 - Name Here', url: 'YOUR_URL_3.mp3' },
+    { title: 'Track 04 - Name Here', url: 'YOUR_URL_4.mp3' },
+    { title: 'Track 05 - Name Here', url: 'YOUR_URL_5.mp3' },
+  ];
+
+  let cur = 0, isPlaying = false, isShuffle = false;
+  const audio = new Audio();
+  audio.volume = 0.8;
+
+  const specCount = 18;
+  const specEl = document.getElementById('xf-spec');
+  const specHeights = Array(specCount).fill(2);
+  for (let i = 0; i < specCount; i++) {
+    const b = document.createElement('div');
+    b.className = 'xf-sbar';
+    specEl.appendChild(b);
+  }
+  const specBars = specEl.querySelectorAll('.xf-sbar');
+
+  function animSpec() {
+    specHeights.forEach((h, i) => {
+      const target = isPlaying ? (2 + Math.random() * 16) : 2;
+      specHeights[i] = h + (target - h) * 0.3;
+      specBars[i].style.height = Math.max(2, specHeights[i]).toFixed(1) + 'px';
+    });
+    requestAnimationFrame(animSpec);
+  }
+  animSpec();
+
+  function fmtT(s) {
+    if (isNaN(s) || s < 0) return '0:00';
+    const m = Math.floor(s / 60), sec = Math.floor(s % 60);
+    return m + ':' + (sec < 10 ? '0' : '') + sec;
+  }
+
+  function buildPL() {
+    document.getElementById('xf-pl-items').innerHTML = PLAYLIST.map((t, i) => `
+      <div class="xf-pl-item ${i === cur ? 'xf-active' : ''}" onclick="xfLoad(${i}, true)">
+        <span class="xf-pl-num">${String(i + 1).padStart(2, '0')}</span>
+        <span>${esc(t.title)}</span>
+      </div>`).join('');
+    document.getElementById('xf-plcount').textContent = PLAYLIST.length + ' tracks';
+  }
+
+  function updatePL() {
+    document.querySelectorAll('.xf-pl-item').forEach((el, i) => {
+      el.classList.toggle('xf-active', i === cur);
+    });
+  }
+
+  function setPlaying(state) {
+    isPlaying = state;
+    document.getElementById('xf-cd').classList.toggle('spinning', state);
+    document.getElementById('xf-pbtn').textContent = state ? '||' : '>';
+    document.getElementById('xf-pbtn').classList.toggle('xf-on', state);
+  }
+
+  window.xfLoad = function (idx, autoplay) {
+    cur = idx;
+    audio.src = PLAYLIST[cur].url;
+    audio.load();
+    document.getElementById('xf-name').textContent = PLAYLIST[cur].title.toUpperCase();
+    document.getElementById('xf-pfill').style.width = '0%';
+    document.getElementById('xf-time').textContent = '0:00';
+    document.getElementById('xf-rem').textContent = '-0:00';
+    updatePL();
+    if (autoplay) xfPlayPause(true);
+  };
+
+  window.xfPlayPause = function (forcePlay) {
+    if (isPlaying && !forcePlay) {
+      audio.pause();
+      setPlaying(false);
+    } else {
+      if (!audio.src || audio.src === location.href) xfLoad(cur, false);
+      audio.play().catch(() => {});
+      setPlaying(true);
+    }
+  };
+
+  window.xfStop = function () {
+    audio.pause();
+    audio.currentTime = 0;
+    setPlaying(false);
+    document.getElementById('xf-name').textContent = 'STOPPED';
+    document.getElementById('xf-pfill').style.width = '0%';
+    document.getElementById('xf-time').textContent = '0:00';
+    document.getElementById('xf-rem').textContent = '-0:00';
+    document.getElementById('xf-cur').textContent = '0:00';
+    document.getElementById('xf-dur').textContent = '0:00';
+  };
+
+  window.xfNext = function () {
+    const next = isShuffle
+      ? Math.floor(Math.random() * PLAYLIST.length)
+      : (cur + 1) % PLAYLIST.length;
+    xfLoad(next, isPlaying);
+  };
+
+  window.xfPrev = function () {
+    if (audio.currentTime > 3) { audio.currentTime = 0; return; }
+    xfLoad((cur - 1 + PLAYLIST.length) % PLAYLIST.length, isPlaying);
+  };
+
+  window.xfShuffle = function () {
+    isShuffle = !isShuffle;
+    document.getElementById('xf-shuf').classList.toggle('xf-on', isShuffle);
+  };
+
+  window.xfSeek = function (e) {
+    if (!audio.duration) return;
+    const r = document.getElementById('xf-prog').getBoundingClientRect();
+    audio.currentTime = ((e.clientX - r.left) / r.width) * audio.duration;
+  };
+
+  window.xfVol = function (e) {
+    const r = document.getElementById('xf-vtrack').getBoundingClientRect();
+    const v = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
+    audio.volume = v;
+    document.getElementById('xf-vfill').style.width = (v * 100) + '%';
+    document.getElementById('xf-vnum').textContent = Math.round(v * 100);
+  };
+
+  window.xfTogglePL = function () {
+    const pl = document.getElementById('xf-pl');
+    pl.style.display = pl.style.display === 'none' ? '' : 'none';
+  };
+
+  window.xfClose = function () {
+    xfStop();
+    document.getElementById('xf-player-wrap').style.display = 'none';
+  };
+
+  audio.addEventListener('timeupdate', () => {
+    if (!audio.duration) return;
+    const pct = audio.currentTime / audio.duration * 100;
+    document.getElementById('xf-pfill').style.width = pct + '%';
+    document.getElementById('xf-time').textContent = fmtT(audio.currentTime);
+    document.getElementById('xf-rem').textContent = '-' + fmtT(audio.duration - audio.currentTime);
+    document.getElementById('xf-cur').textContent = fmtT(audio.currentTime);
+    document.getElementById('xf-dur').textContent = fmtT(audio.duration);
+  });
+
+  audio.addEventListener('ended', xfNext);
+
+  xfLoad(0, false);
+  buildPL();
+})();
