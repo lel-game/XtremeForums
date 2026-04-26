@@ -1248,11 +1248,10 @@ async function archiveDelete(fileId, storagePath) {
 document.addEventListener('DOMContentLoaded', function () {
 
   const PLAYLIST = [
-    { title: 'Track 01 - Name Here', url: 'YOUR_URL_1.mp3' },
-    { title: 'Track 02 - Name Here', url: 'YOUR_URL_2.mp3' },
-    { title: 'Track 03 - Name Here', url: 'YOUR_URL_3.mp3' },
-    { title: 'Track 04 - Name Here', url: 'YOUR_URL_4.mp3' },
-    { title: 'Track 05 - Name Here', url: 'YOUR_URL_5.mp3' },
+    { title: 'Track 03 - Credits', url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498018355465027614/07._Credits.mp3?ex=69efa1cf&is=69ee504f&hm=94b4f8753ab0631b4100197609850af15657cdeec261f57a92760955cbd70e0b&' },
+    { title: 'Track 04 - Bottom', url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498018381482164394/17._Bottom.mp3?ex=69efa1d5&is=69ee5055&hm=8cb7d8a259e0ddb7e75b2708c058c784f5a679b90a2d32b8a97d63f3a3698459&' },
+    { title: 'Track 02 - gift-plane', url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498018341464576000/03._gift-plane.mp3?ex=69efa1cc&is=69ee504c&hm=91482ee6f4d724ccf30af5a4d9961229b3708b10b9fff2555968c8afae4ebbe6&' },
+    { title: 'Track 01 - Acid Baths and Castration', url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498017746947145800/Rhodekill_-_I_Fell_In_Love_With_The_Taste_Of_Blood._-_10_Acid_Baths__Castration..mp3?ex=69efa13e&is=69ee4fbe&hm=bf88cb78ffd35d6c686f63e87cb617937c08010461382948704c1356d7959939&' },
   ];
 
   let cur = 0, isPlaying = false, isShuffle = false;
