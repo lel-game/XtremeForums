@@ -1248,10 +1248,15 @@ async function archiveDelete(fileId, storagePath) {
 document.addEventListener('DOMContentLoaded', function () {
 
   const PLAYLIST = [
-    { title: 'Track 03 - Credits', url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498018355465027614/07._Credits.mp3?ex=69efa1cf&is=69ee504f&hm=94b4f8753ab0631b4100197609850af15657cdeec261f57a92760955cbd70e0b&' },
-    { title: 'Track 04 - Bottom', url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498018381482164394/17._Bottom.mp3?ex=69efa1d5&is=69ee5055&hm=8cb7d8a259e0ddb7e75b2708c058c784f5a679b90a2d32b8a97d63f3a3698459&' },
-    { title: 'Track 02 - gift-plane', url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498018341464576000/03._gift-plane.mp3?ex=69efa1cc&is=69ee504c&hm=91482ee6f4d724ccf30af5a4d9961229b3708b10b9fff2555968c8afae4ebbe6&' },
-    { title: 'Track 01 - Acid Baths and Castration', url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498017746947145800/Rhodekill_-_I_Fell_In_Love_With_The_Taste_Of_Blood._-_10_Acid_Baths__Castration..mp3?ex=69efa13e&is=69ee4fbe&hm=bf88cb78ffd35d6c686f63e87cb617937c08010461382948704c1356d7959939&' },
+    { title: 'Track 01 - gift-plane', url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034272949375047/gift-plane.mp3?ex=69efb0a2&is=69ee5f22&hm=475d8f8104d3337ad27caebc87da80b709d11d73ddb58383fbba538912540a11&' },
+    { title: 'Track 02 - level1', url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034273259622400/level1.mp3?ex=69efb0a2&is=69ee5f22&hm=95445609cbd219efb9e1683e11e9fa781369658e4b6223a1a75b354a78b2e396&' },
+    { title: 'Track 03 - level2', url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034273570258974/level2.mp3?ex=69efb0a2&is=69ee5f22&hm=36eeb694b383992dad10087bf1a5f70135fe5ff70b2c5ab82e26dfab4a9dcaec&' },
+    { title: 'Track 04 - credits', url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034273880379483/credits.mp3?ex=69efb0a3&is=69ee5f23&hm=3f072892df6801df10e8aee8bfbef8c38d494919eaa9e376ada66aa0887beeda&' },
+    { title: 'Track 04 - gift-world', url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034274136228110/girl-world.mp3?ex=69efb0a3&is=69ee5f23&hm=71181b452b1c2f761c11495f54a5270723cb2492c85700a80bcfad29d3cee5ff&' },
+    { title: 'Track 04 - explore-min', url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034274367176924/explore-min.mp3?ex=69efb0a3&is=69ee5f23&hm=d2b6e4f5e63b4a800e44aff4e1e05b15d4cf33f58fa297045797f8c67039d203&' },
+    { title: 'Track 04 - explore', url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034274589216849/explore.mp3?ex=69efb0a3&is=69ee5f23&hm=7ba2f7d24896c6c79b74d3fd9fcd2e4a33a7d590e3ad211e5969473db27cf86f&' },
+    { title: 'Track 04 - bottom', url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034274828288050/bottom.mp3?ex=69efb0a3&is=69ee5f23&hm=320a12c689b638a0c3a4cfa7bfee22303cee7d807459968521c88352e63c92c0&' },
+
   ];
 
   let cur = 0, isPlaying = false, isShuffle = false;
