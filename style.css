@@ -1162,3 +1162,13 @@ td img.thread-avatar {
   opacity: 0.5;
   min-width: 16px;
 }
+
+#xf-player-wrap {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 90;
+  justify-content: center;
+}
