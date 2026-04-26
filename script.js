@@ -1245,7 +1245,7 @@ async function archiveDelete(fileId, storagePath) {
 /* =========================================================
    WINAMP PLAYER
    ========================================================= */
-(function () {
+document.addEventListener('DOMContentLoaded', function () {
   const PLAYLIST = [
     { title: 'Track 03 - Credits', url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498018355465027614/07._Credits.mp3?ex=69efa1cf&is=69ee504f&hm=94b4f8753ab0631b4100197609850af15657cdeec261f57a92760955cbd70e0b&' },
     { title: 'Track 04 - Bottom', url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498018381482164394/17._Bottom.mp3?ex=69efa1d5&is=69ee5055&hm=8cb7d8a259e0ddb7e75b2708c058c784f5a679b90a2d32b8a97d63f3a3698459&' },
@@ -1395,4 +1395,4 @@ async function archiveDelete(fileId, storagePath) {
 
   xfLoad(0, false);
   buildPL();
-})();
+});
