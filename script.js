@@ -297,12 +297,14 @@ function navigate(view, data = {}, push = true) {
   else if (view === 'thread')    renderThread(data.threadId);
   else if (view === 'newthread') renderNewThread(data.catId);
   else if (view === 'settings')  renderSettings();
+  else if (view === 'archive')   renderArchive();
 }
 
 function reloadView() {
   if      (curState.view === 'thread')    renderThread(curState.threadId);
   else if (curState.view === 'newthread') renderNewThread(curState.catId);
   else if (curState.view === 'settings')  renderSettings();
+  else if (curState.view === 'archive') renderArchive();
   else                                    renderForum();
 }
 
@@ -1047,6 +1049,186 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeModal();
 });
 
+/* =========================================================
+   ARCHIVE VIEW  - file upload/download/delete
+   ========================================================= */
+
+async function renderArchive() {
+  isNavigating = true;
+  curState.view = 'archive';
+  showPageLoader('loading archive...');
+
+  try {
+    const { data: files, error } = await sb
+      .from('archive_files')
+      .select('*, profiles(username)')
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    const uploadForm = currentUser ? `
+      <div class="win-outer" style="margin-bottom:8px">
+        <div class="win-title"><span>&#128190; Upload File</span></div>
+        <div style="margin:6px;font-size:11px">
+          <div class="field">
+            <label>File:</label>
+            <input type="file" id="arch-file-input">
+          </div>
+          <div class="field">
+            <label>Description (optional):</label>
+            <input type="text" id="arch-desc" placeholder="what is dis file???" maxlength="100">
+          </div>
+          <div id="arch-upload-msg" style="margin-top:4px"></div>
+          <button class="btn98 btn-primary" id="arch-upload-btn" onclick="archiveUpload()">
+            Upload!!!
+          </button>
+        </div>
+      </div>` : `
+      <div class="win-outer" style="margin-bottom:8px">
+        <div class="win-title"><span>&#128190; Upload File</span></div>
+        <div style="margin:6px;font-size:11px;color:#808080">
+          u need 2 b logged in 2 upload files dummy!!!
+        </div>
+      </div>`;
+
+    const rows = (files || []).length === 0
+      ? '<tr><td colspan="5" style="color:#808080;font-style:italic;text-align:center">no files yet... be the first 2 upload something!!!</td></tr>'
+      : (files || []).map(f => {
+          const canDelete = currentUser && currentUser.id === f.uploader_id;
+          const deleteBtn = canDelete
+            ? `<button class="btn98 btn-sm btn-danger" onclick="archiveDelete('${esc(f.id)}', '${esc(f.storage_path)}')">Del</button>`
+            : '';
+          const sizeStr = f.file_size
+            ? (f.file_size > 1048576
+              ? (f.file_size / 1048576).toFixed(1) + ' MB'
+              : (f.file_size / 1024).toFixed(1) + ' KB')
+            : '???';
+          return `
+            <tr>
+              <td>
+                <a class="archive-link" onclick="archiveDownload('${esc(f.storage_path)}', '${esc(f.original_name)}')">
+                  &#128196; ${esc(f.original_name)}
+                </a>
+                ${f.description ? `<br><span style="color:#808080;font-size:10px">${esc(f.description)}</span>` : ''}
+              </td>
+              <td>${esc(f.profiles?.username || '???')}</td>
+              <td>${sizeStr}</td>
+              <td>${fmt(f.created_at)}</td>
+              <td>${deleteBtn}</td>
+            </tr>`;
+        }).join('');
+
+    document.getElementById('app-root').innerHTML = `
+      ${uploadForm}
+      <div class="win-outer">
+        <div class="win-title"><span>&#128193; File Archive - ${(files||[]).length} file(s)</span></div>
+        <div style="margin:4px">
+          <table>
+            <thead>
+              <tr>
+                <th>Filename</th>
+                <th>Uploaded by</th>
+                <th>Size</th>
+                <th>Date</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+      </div>`;
+
+  } catch (err) {
+    console.error('renderArchive error:', err);
+    document.getElementById('app-root').innerHTML =
+      '<div class="error-box">Failed 2 load archive. Check console (F12).</div>';
+  } finally {
+    isNavigating = false;
+  }
+}
+
+async function archiveUpload() {
+  const fileInput = document.getElementById('arch-file-input');
+  const desc      = val('arch-desc');
+  const msgEl     = document.getElementById('arch-upload-msg');
+  const btn       = document.getElementById('arch-upload-btn');
+
+  if (!fileInput.files[0]) {
+    msgEl.innerHTML = '<span style="color:red">pick a file first dummy!!!</span>';
+    return;
+  }
+
+  const file     = fileInput.files[0];
+  const safeName = file.name.replace(/[^a-zA-Z0-9._\-]/g, '_');
+  const path     = `${currentUser.id}/${Date.now()}_${safeName}`;
+
+  await withLoading(btn, 'uploading...', async () => {
+    const { error: upErr } = await sb.storage
+      .from('archive')
+      .upload(path, file, { upsert: false });
+
+    if (upErr) {
+      msgEl.innerHTML = `<span style="color:red">upload failed: ${esc(upErr.message)}</span>`;
+      return;
+    }
+
+    const { error: dbErr } = await sb.from('archive_files').insert({
+      uploader_id:   currentUser.id,
+      original_name: file.name,
+      storage_path:  path,
+      file_size:     file.size,
+      mime_type:     file.type || 'application/octet-stream',
+      description:   desc || null,
+    });
+
+    if (dbErr) {
+      // rollback the storage upload if DB insert fails
+      await sb.storage.from('archive').remove([path]);
+      msgEl.innerHTML = `<span style="color:red">db error: ${esc(dbErr.message)}</span>`;
+      return;
+    }
+
+    msgEl.innerHTML = '<span style="color:green">uploaded!!! XD</span>';
+    setTimeout(() => renderArchive(), 800);
+  });
+}
+
+async function archiveDownload(storagePath, originalName) {
+  const { data, error } = await sb.storage
+    .from('archive')
+    .download(storagePath);
+
+  if (error || !data) {
+    alert('download failed: ' + (error?.message || 'unknown error'));
+    return;
+  }
+
+  const url = URL.createObjectURL(data);
+  const a   = document.createElement('a');
+  a.href     = url;
+  a.download = originalName;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+async function archiveDelete(fileId, storagePath) {
+  if (!confirm('rly delete this file??? (no undo!!! D:)')) return;
+
+  const { error: storErr } = await sb.storage
+    .from('archive')
+    .remove([storagePath]);
+
+  if (storErr) { alert('storage delete failed: ' + storErr.message); return; }
+
+  const { error: dbErr } = await sb
+    .from('archive_files')
+    .delete()
+    .eq('id', fileId);
+
+  if (dbErr) { alert('db delete failed: ' + dbErr.message); return; }
+
+  renderArchive();
+}
 
 /* =========================================================
    BOOT
