@@ -1250,12 +1250,12 @@ document.addEventListener('DOMContentLoaded', function () {
   const PLAYLIST = [
     { title: 'Track 01 - gift-plane',   url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034272949375047/gift-plane.mp3?ex=69efb0a2&is=69ee5f22&hm=475d8f8104d3337ad27caebc87da80b709d11d73ddb58383fbba538912540a11&' },
     { title: 'Track 02 - level1',       url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034273259622400/level1.mp3?ex=69efb0a2&is=69ee5f22&hm=95445609cbd219efb9e1683e11e9fa781369658e4b6223a1a75b354a78b2e396&' },
-    { title: 'Track 03 - level2',       url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034273570258974/level2.mp3?ex=69efb0a2&is=69ee5f22&hm=36eeb694b383992dad10087bf1a5f70135fe5ff70b2c5ab82e26dfab4a9dcaec&' },
-    { title: 'Track 04 - credits',      url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034273880379483/credits.mp3?ex=69efb0a3&is=69ee5f23&hm=3f072892df6801df10e8aee8bfbef8c38d494919eaa9e376ada66aa0887beeda&' },
-    { title: 'Track 05 - gift-world',   url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034274136228110/girl-world.mp3?ex=69efb0a3&is=69ee5f23&hm=71181b452b1c2f761c11495f54a5270723cb2492c85700a80bcfad29db40f63f&' },
-    { title: 'Track 06 - explore-min',  url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034274367176924/explore-min.mp3?ex=69efb0a3&is=69ee5f23&hm=d2b6e4f5e63b4a800e44aff4e1e05b15d4cf33f58fa297045797f8c67039d203&' },
-    { title: 'Track 07 - explore',      url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034274589216849/explore.mp3?ex=69efb0a3&is=69ee5f23&hm=7ba2f7d24896c6c79b74d3fd9fcd2e4a33a7d590e3ad211e5969473db27cf86f&' },
-    { title: 'Track 08 - bottom',       url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034274828288050/bottom.mp3?ex=69efb0a3&is=69ee5f23&hm=320a12c689b638a0c3a4cfa7bfee22303cee7d807459968521c88352e63c92c0&' },
+    { title: 'Track 03 - level2',       url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034273570258974/level2.mp3?ex=69f1aae2&is=69f05962&hm=b7ec21422e578b15fa860407acebbc22c03aa25d878fdec8a5b4b444bfd303de&' },
+    { title: 'Track 04 - credits',      url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034273880379483/credits.mp3?ex=69f1aae3&is=69f05963&hm=9c0c5ab5f320a7195e36b7b473767195ba78ca3723616e365c26f209e57c3634&' },
+    { title: 'Track 05 - girl-world',   url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034274136228110/girl-world.mp3?ex=69f1aae3&is=69f05963&hm=f98d43b6b69d5d6b3f12db87e5fad4a086882235decd8cd5b08c422707ea381c&' },
+    { title: 'Track 06 - explore-min',  url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034274367176924/explore-min.mp3?ex=69f1aae3&is=69f05963&hm=4c9dbc81580192f82aca4c6b845c4296c0a9b5d62b939a544385d3bee6244dc5&' },
+    { title: 'Track 07 - explore',      url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034274589216849/explore.mp3?ex=69f1aae3&is=69f05963&hm=b935ab498100c3a9bd1fda47e00ecea75e2431106ea53d8134107547bbd41d37&' },
+    { title: 'Track 08 - bottom',       url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034274828288050/bottom.mp3?ex=69f1aae3&is=69f05963&hm=b0b626b4e6f805aafcd922245452d117c26acd11c97018e62faad675bf3d49f7&' },
   ];
 
   let cur = 0, isPlaying = false, isShuffle = false;
