@@ -1248,31 +1248,29 @@ async function archiveDelete(fileId, storagePath) {
 document.addEventListener('DOMContentLoaded', function () {
 
   const PLAYLIST = [
-    { title: 'Track 01 - gift-plane', url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034272949375047/gift-plane.mp3?ex=69efb0a2&is=69ee5f22&hm=475d8f8104d3337ad27caebc87da80b709d11d73ddb58383fbba538912540a11&' },
-    { title: 'Track 02 - level1', url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034273259622400/level1.mp3?ex=69efb0a2&is=69ee5f22&hm=95445609cbd219efb9e1683e11e9fa781369658e4b6223a1a75b354a78b2e396&' },
-    { title: 'Track 03 - level2', url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034273570258974/level2.mp3?ex=69efb0a2&is=69ee5f22&hm=36eeb694b383992dad10087bf1a5f70135fe5ff70b2c5ab82e26dfab4a9dcaec&' },
-    { title: 'Track 04 - credits', url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034273880379483/credits.mp3?ex=69efb0a3&is=69ee5f23&hm=3f072892df6801df10e8aee8bfbef8c38d494919eaa9e376ada66aa0887beeda&' },
-    { title: 'Track 04 - gift-world', url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034274136228110/girl-world.mp3?ex=69efb0a3&is=69ee5f23&hm=71181b452b1c2f761c11495f54a5270723cb2492c85700a80bcfad29d3cee5ff&' },
-    { title: 'Track 04 - explore-min', url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034274367176924/explore-min.mp3?ex=69efb0a3&is=69ee5f23&hm=d2b6e4f5e63b4a800e44aff4e1e05b15d4cf33f58fa297045797f8c67039d203&' },
-    { title: 'Track 04 - explore', url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034274589216849/explore.mp3?ex=69efb0a3&is=69ee5f23&hm=7ba2f7d24896c6c79b74d3fd9fcd2e4a33a7d590e3ad211e5969473db27cf86f&' },
-    { title: 'Track 04 - bottom', url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034274828288050/bottom.mp3?ex=69efb0a3&is=69ee5f23&hm=320a12c689b638a0c3a4cfa7bfee22303cee7d807459968521c88352e63c92c0&' },
-
+    { title: 'Track 01 - gift-plane',   url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034272949375047/gift-plane.mp3?ex=69efb0a2&is=69ee5f22&hm=475d8f8104d3337ad27caebc87da80b709d11d73ddb58383fbba538912540a11&' },
+    { title: 'Track 02 - level1',       url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034273259622400/level1.mp3?ex=69efb0a2&is=69ee5f22&hm=95445609cbd219efb9e1683e11e9fa781369658e4b6223a1a75b354a78b2e396&' },
+    { title: 'Track 03 - level2',       url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034273570258974/level2.mp3?ex=69efb0a2&is=69ee5f22&hm=36eeb694b383992dad10087bf1a5f70135fe5ff70b2c5ab82e26dfab4a9dcaec&' },
+    { title: 'Track 04 - credits',      url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034273880379483/credits.mp3?ex=69efb0a3&is=69ee5f23&hm=3f072892df6801df10e8aee8bfbef8c38d494919eaa9e376ada66aa0887beeda&' },
+    { title: 'Track 05 - gift-world',   url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034274136228110/girl-world.mp3?ex=69efb0a3&is=69ee5f23&hm=71181b452b1c2f761c11495f54a5270723cb2492c85700a80bcfad29db40f63f&' },
+    { title: 'Track 06 - explore-min',  url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034274367176924/explore-min.mp3?ex=69efb0a3&is=69ee5f23&hm=d2b6e4f5e63b4a800e44aff4e1e05b15d4cf33f58fa297045797f8c67039d203&' },
+    { title: 'Track 07 - explore',      url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034274589216849/explore.mp3?ex=69efb0a3&is=69ee5f23&hm=7ba2f7d24896c6c79b74d3fd9fcd2e4a33a7d590e3ad211e5969473db27cf86f&' },
+    { title: 'Track 08 - bottom',       url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034274828288050/bottom.mp3?ex=69efb0a3&is=69ee5f23&hm=320a12c689b638a0c3a4cfa7bfee22303cee7d807459968521c88352e63c92c0&' },
   ];
 
   let cur = 0, isPlaying = false, isShuffle = false;
   const audio = new Audio();
   audio.volume = 0.8;
 
-  const specCount = 18;
+  // ── Spectrum animator ──────────────────────────────────────
   const specEl = document.getElementById('xf-spec');
-  const specHeights = Array(specCount).fill(2);
-  for (let i = 0; i < specCount; i++) {
+  const specHeights = Array(18).fill(2);
+  for (let i = 0; i < 18; i++) {
     const b = document.createElement('div');
     b.className = 'xf-sbar';
     specEl.appendChild(b);
   }
   const specBars = specEl.querySelectorAll('.xf-sbar');
-
   function animSpec() {
     specHeights.forEach((h, i) => {
       const target = isPlaying ? (2 + Math.random() * 16) : 2;
@@ -1283,6 +1281,38 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   animSpec();
 
+  // ── Drag to move (proper pointer events approach) ──────────
+  const wrap  = document.getElementById('xf-player-wrap');
+  const titleBar = wrap.querySelector('.win-title');
+  let dragging = false, ox = 0, oy = 0;
+
+  titleBar.addEventListener('pointerdown', e => {
+    // don't drag if clicking the buttons
+    if (e.target.closest('.win-title-btns')) return;
+    dragging = true;
+    titleBar.setPointerCapture(e.pointerId);
+    const r = wrap.getBoundingClientRect();
+    ox = e.clientX - r.left;
+    oy = e.clientY - r.top;
+    wrap.style.transform = 'none'; // remove the translateX(-50%) once user drags
+    e.preventDefault();
+  });
+
+  titleBar.addEventListener('pointermove', e => {
+    if (!dragging) return;
+    let nx = e.clientX - ox;
+    let ny = e.clientY - oy;
+    // clamp inside viewport
+    nx = Math.max(0, Math.min(window.innerWidth  - wrap.offsetWidth,  nx));
+    ny = Math.max(0, Math.min(window.innerHeight - wrap.offsetHeight, ny));
+    wrap.style.left = nx + 'px';
+    wrap.style.top  = ny + 'px';
+  });
+
+  titleBar.addEventListener('pointerup',    () => { dragging = false; });
+  titleBar.addEventListener('pointercancel',() => { dragging = false; });
+
+  // ── Helpers ────────────────────────────────────────────────
   function fmtT(s) {
     if (isNaN(s) || s < 0) return '0:00';
     const m = Math.floor(s / 60), sec = Math.floor(s % 60);
@@ -1315,6 +1345,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('xf-name').textContent = PLAYLIST[cur].title.toUpperCase();
   }
 
+  // ── Public API (window.*) ──────────────────────────────────
   window.xfLoad = function (idx, autoplay) {
     cur = idx;
     audio.src = PLAYLIST[cur].url;
@@ -1322,7 +1353,7 @@ document.addEventListener('DOMContentLoaded', function () {
     updateName();
     document.getElementById('xf-pfill').style.width = '0%';
     document.getElementById('xf-time').textContent = '0:00';
-    document.getElementById('xf-rem').textContent = '-0:00';
+    document.getElementById('xf-rem').textContent  = '-0:00';
     updatePL();
     if (autoplay) xfPlayPause(true);
   };
@@ -1344,10 +1375,10 @@ document.addEventListener('DOMContentLoaded', function () {
     setPlaying(false);
     updateName();
     document.getElementById('xf-pfill').style.width = '0%';
-    document.getElementById('xf-time').textContent = '0:00';
-    document.getElementById('xf-rem').textContent = '-0:00';
-    document.getElementById('xf-cur').textContent = '0:00';
-    document.getElementById('xf-dur').textContent = '0:00';
+    document.getElementById('xf-time').textContent  = '0:00';
+    document.getElementById('xf-rem').textContent   = '-0:00';
+    document.getElementById('xf-cur').textContent   = '0:00';
+    document.getElementById('xf-dur').textContent   = '0:00';
   };
 
   window.xfNext = function () {
@@ -1378,7 +1409,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const v = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
     audio.volume = v;
     document.getElementById('xf-vfill').style.width = (v * 100) + '%';
-    document.getElementById('xf-vnum').textContent = Math.round(v * 100);
+    document.getElementById('xf-vnum').textContent  = Math.round(v * 100);
   };
 
   window.xfTogglePL = function () {
@@ -1387,27 +1418,41 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   window.xfTogglePlayer = function () {
-    const wrap = document.getElementById('xf-player-wrap');
-    const visible = wrap.style.display !== 'none';
-    wrap.style.display = visible ? 'none' : 'flex';
+    const w = document.getElementById('xf-player-wrap');
+    w.style.display = w.style.display === 'none' ? '' : 'none';
   };
 
   window.xfClose = function () {
     document.getElementById('xf-player-wrap').style.display = 'none';
   };
 
+  // ── timeupdate ─────────────────────────────────────────────
   audio.addEventListener('timeupdate', () => {
     if (!audio.duration) return;
     const pct = audio.currentTime / audio.duration * 100;
     document.getElementById('xf-pfill').style.width = pct + '%';
-    document.getElementById('xf-time').textContent = fmtT(audio.currentTime);
-    document.getElementById('xf-rem').textContent = '-' + fmtT(audio.duration - audio.currentTime);
-    document.getElementById('xf-cur').textContent = fmtT(audio.currentTime);
-    document.getElementById('xf-dur').textContent = fmtT(audio.duration);
+    document.getElementById('xf-time').textContent  = fmtT(audio.currentTime);
+    document.getElementById('xf-rem').textContent   = '-' + fmtT(audio.duration - audio.currentTime);
+    document.getElementById('xf-cur').textContent   = fmtT(audio.currentTime);
+    document.getElementById('xf-dur').textContent   = fmtT(audio.duration);
   });
 
   audio.addEventListener('ended', xfNext);
 
+  // ── Autoplay on first user interaction ────────────────────
+  // Browsers block autoplay until the user touches the page once.
+  // We listen for the first click/keydown anywhere, then start.
   xfLoad(0, false);
   buildPL();
+
+  let autoStarted = false;
+  function tryAutoplay() {
+    if (autoStarted) return;
+    autoStarted = true;
+    document.removeEventListener('click',   tryAutoplay);
+    document.removeEventListener('keydown', tryAutoplay);
+    xfPlayPause(true);
+  }
+  document.addEventListener('click',   tryAutoplay);
+  document.addEventListener('keydown', tryAutoplay);
 });
