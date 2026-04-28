@@ -939,9 +939,12 @@ td img.thread-avatar {
    WINAMP PLAYER
    ========================================================= */
 #xf-player-wrap {
-  display: flex;
-  justify-content: flex-end;
-  padding: 6px 8px 0;
+  display: none;
+  position: fixed;
+  top: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 90;
 }
 
 #xf-player {
@@ -952,6 +955,7 @@ td img.thread-avatar {
   border-radius: var(--radius-win);
   font-family: var(--font);
   font-size: 11px;
+  user-select: none;
 }
 
 #xf-player .win-title {
