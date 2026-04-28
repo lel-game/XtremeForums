@@ -1418,9 +1418,10 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   window.xfTogglePlayer = function () {
-    const w = document.getElementById('xf-player-wrap');
-    w.style.display = w.style.display === 'none' ? '' : 'none';
-  };
+  const w = document.getElementById('xf-player-wrap');
+  const isHidden = w.style.display === 'none' || w.style.display === '';
+  w.style.display = isHidden ? 'block' : 'none';
+};
 
   window.xfClose = function () {
     document.getElementById('xf-player-wrap').style.display = 'none';
@@ -1443,16 +1444,20 @@ document.addEventListener('DOMContentLoaded', function () {
   // Browsers block autoplay until the user touches the page once.
   // We listen for the first click/keydown anywhere, then start.
   xfLoad(0, false);
-  buildPL();
-
-  let autoStarted = false;
-  function tryAutoplay() {
-    if (autoStarted) return;
-    autoStarted = true;
-    document.removeEventListener('click',   tryAutoplay);
-    document.removeEventListener('keydown', tryAutoplay);
-    xfPlayPause(true);
-  }
-  document.addEventListener('click',   tryAutoplay);
-  document.addEventListener('keydown', tryAutoplay);
+   buildPL();
+   
+   // autoplay on first interaction — but only if player isn't
+   // being opened right now (the toggle click counts as first interaction)
+   let autoStarted = false;
+   function tryAutoplay(e) {
+     if (autoStarted) return;
+     // if this click was the player button, skip — let toggle open first
+     if (e && e.target && e.target.id === 'xf-open-btn') return;
+     autoStarted = true;
+     document.removeEventListener('click',   tryAutoplay);
+     document.removeEventListener('keydown', tryAutoplay);
+     xfPlayPause(true);
+   }
+   document.addEventListener('click',   tryAutoplay);
+   document.addEventListener('keydown', tryAutoplay);
 });
