@@ -1248,14 +1248,14 @@ async function archiveDelete(fileId, storagePath) {
 document.addEventListener('DOMContentLoaded', function () {
 
   const PLAYLIST = [
-    { title: 'Track 01 - gift-plane',   url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034272949375047/gift-plane.mp3?ex=69efb0a2&is=69ee5f22&hm=475d8f8104d3337ad27caebc87da80b709d11d73ddb58383fbba538912540a11&' },
-    { title: 'Track 02 - level1',       url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034273259622400/level1.mp3?ex=69efb0a2&is=69ee5f22&hm=95445609cbd219efb9e1683e11e9fa781369658e4b6223a1a75b354a78b2e396&' },
-    { title: 'Track 03 - level2',       url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034273570258974/level2.mp3?ex=69f1aae2&is=69f05962&hm=b7ec21422e578b15fa860407acebbc22c03aa25d878fdec8a5b4b444bfd303de&' },
-    { title: 'Track 04 - credits',      url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034273880379483/credits.mp3?ex=69f1aae3&is=69f05963&hm=9c0c5ab5f320a7195e36b7b473767195ba78ca3723616e365c26f209e57c3634&' },
-    { title: 'Track 05 - girl-world',   url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034274136228110/girl-world.mp3?ex=69f1aae3&is=69f05963&hm=f98d43b6b69d5d6b3f12db87e5fad4a086882235decd8cd5b08c422707ea381c&' },
-    { title: 'Track 06 - explore-min',  url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034274367176924/explore-min.mp3?ex=69f1aae3&is=69f05963&hm=4c9dbc81580192f82aca4c6b845c4296c0a9b5d62b939a544385d3bee6244dc5&' },
-    { title: 'Track 07 - explore',      url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034274589216849/explore.mp3?ex=69f1aae3&is=69f05963&hm=b935ab498100c3a9bd1fda47e00ecea75e2431106ea53d8134107547bbd41d37&' },
-    { title: 'Track 08 - bottom',       url: 'https://cdn.discordapp.com/attachments/1498017698179711140/1498034274828288050/bottom.mp3?ex=69f1aae3&is=69f05963&hm=b0b626b4e6f805aafcd922245452d117c26acd11c97018e62faad675bf3d49f7&' },
+    { title: 'Track 01 - gift-plane',   url: 'https://drive.proton.me/urls/7ENQVVEA58#kltjNHEd4MUF' },
+    { title: 'Track 02 - level1',       url: 'https://drive.proton.me/urls/D37N27C88W#OrV6xlxH9gH6' },
+    { title: 'Track 03 - level2',       url: 'https://drive.proton.me/urls/PD4S9GD8S4#wrKDEJXWHGf3' },
+    { title: 'Track 04 - credits',      url: 'https://drive.proton.me/urls/168MYEFTRM#DfhqlaktdWBw' },
+    { title: 'Track 05 - girl-world',   url: 'https://drive.proton.me/urls/BEZ0R7S77M#OTOm77mwp4Hx' },
+    { title: 'Track 06 - explore-min',  url: 'https://drive.proton.me/urls/Q1YKYRWGVR#pm9rztnhyeNn' },
+    { title: 'Track 07 - explore',      url: 'https://drive.proton.me/urls/CTEQDDM4B8#A7qaBPzmo9s8' },
+    { title: 'Track 08 - bottom',       url: 'https://drive.proton.me/urls/6QTTN0GJTC#BYSNP2CLczXt' },
   ];
 
   let cur = 0, isPlaying = false, isShuffle = false;
