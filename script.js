@@ -1248,7 +1248,7 @@ async function archiveDelete(fileId, storagePath) {
 document.addEventListener('DOMContentLoaded', function () {
 
   const PLAYLIST = [
-    { title: 'Track 01 - gift-plane',   url: 'https://drive.google.com/file/d/1D5S4K5iFyehhZM0Bh2ojHqXV6LTHrOnF/view?usp=sharing' },
+    { title: 'Track 01 - gift-plane',   url: 'https://github.com/lel-game/XtremeForums/blob/4b4f76ab20a84176254d32b07b26461f4514dec7/gift-plane.mp3' },
     { title: 'Track 02 - level1',       url: 'https://drive.proton.me/urls/D37N27C88W#OrV6xlxH9gH6' },
     { title: 'Track 03 - level2',       url: 'https://drive.proton.me/urls/PD4S9GD8S4#wrKDEJXWHGf3' },
     { title: 'Track 04 - credits',      url: 'https://drive.proton.me/urls/168MYEFTRM#DfhqlaktdWBw' },
